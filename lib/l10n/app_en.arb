@@ -1,0 +1,9 @@
+{
+  "appName": "Food Delivery",
+  "deliveryTo": "DELIVER TO",
+  "greeting": "Hey {name}, Good Afternoon!",
+  "searchHint": "Search dishes, restaurants",
+  "allCategories": "All Categories",
+  "seeAll": "See All",
+  "openRestaurants": "Open Restaurants"
+}

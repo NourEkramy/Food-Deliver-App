@@ -1,0 +1,9 @@
+{
+  "appName": "توصيل الطعام",
+  "deliveryTo": "التوصيل إلى",
+  "greeting": "مرحباً {name}، مساء الخير!",
+  "searchHint": "ابحث عن أطباق، مطاعم",
+  "allCategories": "كل التصنيفات",
+  "seeAll": "عرض الكل",
+  "openRestaurants": "المطاعم المفتوحة"
+}
