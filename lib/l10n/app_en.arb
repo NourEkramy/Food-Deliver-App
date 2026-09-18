@@ -38,5 +38,6 @@
   "emailRequired": "Please enter your email",
   "passwordRequired": "Please enter your password",
   "emailInvalid": "Please enter a valid email address",
-  "passwordTooShort": "Password must be at least 6 characters"
+  "passwordTooShort": "Password must be at least 6 characters",
+  "logout": "Log Out"
 }

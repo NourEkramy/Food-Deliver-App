@@ -4,6 +4,7 @@ import '../../../core/network/api_client.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../auth/cubit/auth_cubit.dart';
 import '../../restaurant_detail/cubit/restaurant_detail_cubit.dart';
 import '../../restaurant_detail/repository/restaurant_detail_repository.dart';
 import '../../restaurant_detail/view/restaurant_detail_screen.dart';
@@ -73,6 +74,22 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Temporary: the Home redesign replaces this row with the
+                  // designed header (menu icon, delivery address, cart). Until
+                  // then this is the only way out of a remembered session.
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 8, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton.icon(
+                          onPressed: () => context.read<AuthCubit>().logout(),
+                          icon: const Icon(Icons.logout, size: 18),
+                          label: Text(AppLocalizations.of(context).logout),
+                        ),
+                      ],
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: TextField(
