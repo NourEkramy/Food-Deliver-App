@@ -8,22 +8,31 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this.repository) : super(const AuthState());
 
   Future<void> login(String email, String password) async {
-    emit(state.copyWith(isLoading: true, errorMessage: null));
+    emit(state.copyWith(isLoading: true));
     try {
       final response = await repository.login(email, password);
       emit(state.copyWith(isLoading: false, apiKey: response.apiKey));
     } catch (e) {
-      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
+      emit(state.copyWith(isLoading: false, errorMessage: _message(e)));
     }
   }
 
   Future<void> register(String email, String password) async {
-    emit(state.copyWith(isLoading: true, errorMessage: null));
+    emit(state.copyWith(isLoading: true));
     try {
       final response = await repository.register(email, password);
       emit(state.copyWith(isLoading: false, apiKey: response.apiKey));
     } catch (e) {
-      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
+      emit(state.copyWith(isLoading: false, errorMessage: _message(e)));
     }
   }
+
+  /// Drops the API key, returning the app to its signed-out state.
+  void logout() => emit(const AuthState());
+
+  /// `Exception.toString()` prefixes the text with "Exception: ", which users
+  /// should never see. The repository has already produced a readable
+  /// sentence, so we just unwrap it.
+  String _message(Object error) =>
+      error.toString().replaceFirst('Exception: ', '');
 }

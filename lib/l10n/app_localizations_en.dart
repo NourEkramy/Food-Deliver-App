@@ -1,0 +1,78 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get appName => 'Food Delivery';
+
+  @override
+  String get deliveryTo => 'DELIVER TO';
+
+  @override
+  String greeting(String name) {
+    return 'Hey $name, Good Afternoon!';
+  }
+
+  @override
+  String get searchHint => 'Search dishes, restaurants';
+
+  @override
+  String get allCategories => 'All Categories';
+
+  @override
+  String get seeAll => 'See All';
+
+  @override
+  String get openRestaurants => 'Open Restaurants';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get logIn => 'Log In';
+
+  @override
+  String get loginSubtitle => 'Please sign in to your existing account';
+
+  @override
+  String get email => 'EMAIL';
+
+  @override
+  String get password => 'PASSWORD';
+
+  @override
+  String get emailHint => 'example@gmail.com';
+
+  @override
+  String get rememberMe => 'Remember me';
+
+  @override
+  String get forgotPassword => 'Forgot Password';
+
+  @override
+  String get dontHaveAccount => 'Don\'t have an account?';
+
+  @override
+  String get signUp => 'SIGN UP';
+
+  @override
+  String get or => 'Or';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get emailRequired => 'Please enter your email';
+
+  @override
+  String get passwordRequired => 'Please enter your password';
+}

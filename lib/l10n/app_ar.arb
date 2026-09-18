@@ -1,9 +1,31 @@
 {
+  "@@locale": "ar",
+
   "appName": "توصيل الطعام",
+
   "deliveryTo": "التوصيل إلى",
-  "greeting": "مرحباً {name}، مساء الخير!",
-  "searchHint": "ابحث عن أطباق، مطاعم",
+
+  "greeting": "مرحباً {name}، طاب مساؤك!",
+
+  "searchHint": "ابحث عن أطباق أو مطاعم",
   "allCategories": "كل التصنيفات",
   "seeAll": "عرض الكل",
-  "openRestaurants": "المطاعم المفتوحة"
+  "openRestaurants": "المطاعم المفتوحة",
+  "all": "الكل",
+
+  "logIn": "تسجيل الدخول",
+  "loginSubtitle": "الرجاء تسجيل الدخول إلى حسابك",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "emailHint": "example@gmail.com",
+  "rememberMe": "تذكرني",
+  "forgotPassword": "نسيت كلمة المرور؟",
+  "dontHaveAccount": "ليس لديك حساب؟",
+  "signUp": "إنشاء حساب",
+  "or": "أو",
+
+  "somethingWentWrong": "حدث خطأ ما",
+  "retry": "إعادة المحاولة",
+  "emailRequired": "الرجاء إدخال بريدك الإلكتروني",
+  "passwordRequired": "الرجاء إدخال كلمة المرور"
 }

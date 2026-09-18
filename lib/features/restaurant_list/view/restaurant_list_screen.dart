@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/network/api_client.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../restaurant_detail/cubit/restaurant_detail_cubit.dart';
 import '../../restaurant_detail/repository/restaurant_detail_repository.dart';
 import '../../restaurant_detail/view/restaurant_detail_screen.dart';
@@ -26,6 +29,8 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<RestaurantCubit, RestaurantState>(
@@ -35,7 +40,25 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
             }
 
             if (state is RestaurantError) {
-              return Center(child: Text('Something went wrong: ${state.message}'));
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      l10n.somethingWentWrong,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(state.message, textAlign: TextAlign.center),
+                    const SizedBox(height: 16),
+                    TextButton(
+                      onPressed: () =>
+                          context.read<RestaurantCubit>().loadRestaurants(),
+                      child: Text(l10n.retry),
+                    ),
+                  ],
+                ),
+              );
             }
 
             if (state is RestaurantLoaded) {
@@ -43,28 +66,32 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
 
               final visibleRestaurants = selectedType == null
                   ? state.restaurants
-                  : state.restaurants.where((r) => r.type == selectedType).toList();
+                  : state.restaurants
+                        .where((r) => r.type == selectedType)
+                        .toList();
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
                     child: TextField(
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search),
-                        hintText: 'Search dishes, restaurants',
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                          borderSide: BorderSide.none,
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: AppColors.hint,
                         ),
+                        hintText: l10n.searchHint,
+                        fillColor: AppColors.surfaceGrey,
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('All Categories', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      l10n.allCategories,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                   ),
                   SizedBox(
                     height: 56,
@@ -73,32 +100,38 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       children: [
                         _CategoryChip(
-                          label: 'All',
+                          label: l10n.all,
                           selected: selectedType == null,
                           onTap: () => setState(() => selectedType = null),
                         ),
-                        ...types.map((type) => Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: _CategoryChip(
-                            label: type,
-                            selected: selectedType == type,
-                            onTap: () => setState(() => selectedType = type),
+                        ...types.map(
+                          (type) => Padding(
+                            padding: const EdgeInsetsDirectional.only(start: 8),
+                            child: _CategoryChip(
+                              label: type,
+                              selected: selectedType == type,
+                              onTap: () => setState(() => selectedType = type),
+                            ),
                           ),
-                        )),
+                        ),
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
-                    child: Text('Open Restaurants', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                    child: Text(
+                      l10n.openRestaurants,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                   ),
                   Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       itemCount: visibleRestaurants.length,
                       itemBuilder: (context, index) {
-                        final restaurant = visibleRestaurants[index];
-                        return _RestaurantCard(restaurant: restaurant);
+                        return _RestaurantCard(
+                          restaurant: visibleRestaurants[index],
+                        );
                       },
                     ),
                   ),
@@ -119,7 +152,11 @@ class _CategoryChip extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  const _CategoryChip({required this.label, required this.selected, required this.onTap});
+  const _CategoryChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -128,16 +165,18 @@ class _CategoryChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
-          color: selected ? Colors.orange : Colors.white,
+          color: selected ? AppColors.chipSelected : AppColors.white,
           borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: selected ? Colors.orange : Colors.grey.shade300),
+          border: Border.all(
+            color: selected ? AppColors.chipSelected : AppColors.divider,
+          ),
         ),
         child: Center(
           child: Text(
             label,
             style: TextStyle(
-              color: selected ? Colors.white : Colors.black,
-              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+              fontWeight: selected ? FontWeight.bold : FontWeight.w600,
             ),
           ),
         ),
@@ -145,7 +184,6 @@ class _CategoryChip extends StatelessWidget {
     );
   }
 }
-
 
 class _RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
@@ -156,14 +194,19 @@ class _RestaurantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => RestaurantDetailCubit(
-              RestaurantDetailRepository(context.read<ApiClient>().dio),
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => BlocProvider(
+              create: (_) => RestaurantDetailCubit(
+                RestaurantDetailRepository(context.read<ApiClient>().dio),
+              ),
+              child: RestaurantDetailScreen(
+                restaurantId: restaurant.restaurantID,
+              ),
             ),
-            child: RestaurantDetailScreen(restaurantId: restaurant.restaurantID),
           ),
-        ));
+        );
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 16),
@@ -174,16 +217,22 @@ class _RestaurantCard extends StatelessWidget {
               height: 160,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.blueGrey.shade200,
-                borderRadius: BorderRadius.circular(16),
+                color: AppColors.surfaceGrey,
+                borderRadius: BorderRadius.circular(AppTheme.radius),
               ),
             ),
             const SizedBox(height: 8),
-            Text(restaurant.restaurantName, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(
+              restaurant.restaurantName,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 4),
-            Text(restaurant.type, style: TextStyle(color: Colors.grey.shade600)),
+            Text(restaurant.type, style: Theme.of(context).textTheme.bodySmall),
             const SizedBox(height: 4),
-            Text(restaurant.address, style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
+            Text(
+              restaurant.address,
+              style: const TextStyle(color: AppColors.hint, fontSize: 12),
+            ),
           ],
         ),
       ),

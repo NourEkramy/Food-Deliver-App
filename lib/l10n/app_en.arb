@@ -1,9 +1,46 @@
 {
+  "@@locale": "en",
+
   "appName": "Food Delivery",
+  "@appName": {
+    "description": "The application name, shown on the splash screen."
+  },
+
   "deliveryTo": "DELIVER TO",
+  "@deliveryTo": {
+    "description": "Label above the delivery address in the home header."
+  },
+
   "greeting": "Hey {name}, Good Afternoon!",
+  "@greeting": {
+    "description": "Welcome line on the home screen.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Halal"
+      }
+    }
+  },
+
   "searchHint": "Search dishes, restaurants",
   "allCategories": "All Categories",
   "seeAll": "See All",
-  "openRestaurants": "Open Restaurants"
+  "openRestaurants": "Open Restaurants",
+  "all": "All",
+
+  "logIn": "Log In",
+  "loginSubtitle": "Please sign in to your existing account",
+  "email": "EMAIL",
+  "password": "PASSWORD",
+  "emailHint": "example@gmail.com",
+  "rememberMe": "Remember me",
+  "forgotPassword": "Forgot Password",
+  "dontHaveAccount": "Don't have an account?",
+  "signUp": "SIGN UP",
+  "or": "Or",
+
+  "somethingWentWrong": "Something went wrong",
+  "retry": "Retry",
+  "emailRequired": "Please enter your email",
+  "passwordRequired": "Please enter your password"
 }
