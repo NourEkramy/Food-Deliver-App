@@ -17,21 +17,26 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<RestaurantDetailCubit>().loadRestaurantDetail(widget.restaurantId);
+    context.read<RestaurantDetailCubit>().loadRestaurantDetail(
+      widget.restaurantId,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child:BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
+        child: BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
           builder: (context, state) {
-            if (state is RestaurantDetailLoading || state is RestaurantDetailInitial) {
+            if (state is RestaurantDetailLoading ||
+                state is RestaurantDetailInitial) {
               return const Center(child: CircularProgressIndicator());
             }
 
             if (state is RestaurantDetailError) {
-              return Center(child: Text('Something went wrong: ${state.message}'));
+              return Center(
+                child: Text('Something went wrong: ${state.message}'),
+              );
             }
 
             if (state is RestaurantDetailLoaded) {
@@ -50,11 +55,26 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(restaurant.type, style: TextStyle(color: Colors.grey.shade600)),
+                          Text(
+                            restaurant.type,
+                            style: TextStyle(color: Colors.grey.shade600),
+                          ),
                           const SizedBox(height: 4),
-                          Text(restaurant.address, style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
+                          Text(
+                            restaurant.address,
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: 12,
+                            ),
+                          ),
                           const SizedBox(height: 16),
-                          Text('Menu (${menuItems.length})', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text(
+                            'Menu (${menuItems.length})',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -62,14 +82,16 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     sliver: SliverGrid(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 12,
-                        crossAxisSpacing: 12,
-                        childAspectRatio: 0.75,
-                      ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 12,
+                            crossAxisSpacing: 12,
+                            childAspectRatio: 0.75,
+                          ),
                       delegate: SliverChildBuilderDelegate(
-                            (context, index) => _MenuItemCard(item: menuItems[index]),
+                        (context, index) =>
+                            _MenuItemCard(item: menuItems[index]),
                         childCount: menuItems.length,
                       ),
                     ),
@@ -85,6 +107,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     );
   }
 }
+
 class _MenuItemCard extends StatelessWidget {
   final MenuItem item;
 
@@ -99,13 +122,25 @@ class _MenuItemCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: item.imageUrl != null
-                ? Image.network(item.imageUrl!, fit: BoxFit.cover, width: double.infinity)
+                ? Image.network(
+                    item.imageUrl!,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  )
                 : Container(color: Colors.blueGrey.shade100),
           ),
         ),
         const SizedBox(height: 6),
-        Text(item.itemName, style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
-        Text('\$${item.itemPrice.toStringAsFixed(2)}', style: TextStyle(color: Colors.grey.shade700)),
+        Text(
+          item.itemName,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        Text(
+          '\$${item.itemPrice.toStringAsFixed(2)}',
+          style: TextStyle(color: Colors.grey.shade700),
+        ),
       ],
     );
   }

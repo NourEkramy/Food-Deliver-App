@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
-import '../../restaurant_list/view/restaurant_list_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -17,6 +16,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final confirmPasswordController = TextEditingController();
 
   @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -25,10 +32,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: BlocConsumer<AuthCubit, AuthState>(
             listener: (context, state) {
               if (state.isAuthenticated) {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const RestaurantListScreen()),
-                );
+                // AuthGate has already swapped the root screen to the app, so
+                // popping back to it reveals that. The previous code pushed a
+                // RestaurantListScreen with no RestaurantCubit above it, which
+                // threw ProviderNotFoundException on arrival.
+                Navigator.of(context).popUntil((route) => route.isFirst);
               }
             },
             builder: (context, state) {
@@ -49,32 +57,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextField(
                     controller: confirmPasswordController,
                     obscureText: true,
-                    decoration: const InputDecoration(labelText: 'Confirm password'),
+                    decoration: const InputDecoration(
+                      labelText: 'Confirm password',
+                    ),
                   ),
                   const SizedBox(height: 24),
                   if (state.errorMessage != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: Text(state.errorMessage!, style: const TextStyle(color: Colors.red)),
+                      child: Text(
+                        state.errorMessage!,
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     ),
                   state.isLoading
                       ? const CircularProgressIndicator()
                       : ElevatedButton(
-                    onPressed: () {
-                      if (passwordController.text != confirmPasswordController.text)
-                        {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Passwords don't match")),
-                          );
-                          return;
-                        }
-                      context.read<AuthCubit>().register(
-                        emailController.text,
-                        passwordController.text,
-                      );
-                    },
-                    child: const Text('Register'),
-                  ),
+                          onPressed: () {
+                            if (passwordController.text !=
+                                confirmPasswordController.text) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Passwords don't match"),
+                                ),
+                              );
+                              return;
+                            }
+                            context.read<AuthCubit>().register(
+                              emailController.text,
+                              passwordController.text,
+                            );
+                          },
+                          child: const Text('Register'),
+                        ),
                 ],
               );
             },

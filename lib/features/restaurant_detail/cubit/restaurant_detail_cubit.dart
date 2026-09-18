@@ -15,11 +15,13 @@ class RestaurantDetailCubit extends Cubit<RestaurantDetailState> {
       final results = await Future.wait([
         repository.getRestaurantById(restaurantId),
         repository.getRestaurantMenu(restaurantId),
-    ]);
+      ]);
       final restaurant = results[0] as Restaurant;
       final menuItems = results[1] as List<MenuItem>;
 
-      emit(RestaurantDetailLoaded(restaurant: restaurant, menuItems: menuItems));
+      emit(
+        RestaurantDetailLoaded(restaurant: restaurant, menuItems: menuItems),
+      );
     } catch (e) {
       emit(RestaurantDetailError(e.toString()));
     }

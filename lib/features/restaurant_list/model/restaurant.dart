@@ -13,7 +13,7 @@ class Restaurant {
     required this.type,
   });
 
-  factory Restaurant.fromJson(Map<String, dynamic> json){
+  factory Restaurant.fromJson(Map<String, dynamic> json) {
     return Restaurant(
       restaurantID: json["restaurantID"] as int,
       address: json["address"] as String,
@@ -23,7 +23,7 @@ class Restaurant {
     );
   }
 
-  static List<String> distinctTypes(List<Restaurant> restaurants){
+  static List<String> distinctTypes(List<Restaurant> restaurants) {
     return restaurants.map((r) => r.type).toSet().toList();
   }
 }

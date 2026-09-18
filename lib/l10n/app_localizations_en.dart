@@ -75,4 +75,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordRequired => 'Please enter your password';
+
+  @override
+  String get emailInvalid => 'Please enter a valid email address';
+
+  @override
+  String get passwordTooShort => 'Password must be at least 6 characters';
 }

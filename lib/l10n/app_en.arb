@@ -1,16 +1,13 @@
 {
   "@@locale": "en",
-
   "appName": "Food Delivery",
   "@appName": {
     "description": "The application name, shown on the splash screen."
   },
-
   "deliveryTo": "DELIVER TO",
   "@deliveryTo": {
     "description": "Label above the delivery address in the home header."
   },
-
   "greeting": "Hey {name}, Good Afternoon!",
   "@greeting": {
     "description": "Welcome line on the home screen.",
@@ -21,13 +18,11 @@
       }
     }
   },
-
   "searchHint": "Search dishes, restaurants",
   "allCategories": "All Categories",
   "seeAll": "See All",
   "openRestaurants": "Open Restaurants",
   "all": "All",
-
   "logIn": "Log In",
   "loginSubtitle": "Please sign in to your existing account",
   "email": "EMAIL",
@@ -38,9 +33,10 @@
   "dontHaveAccount": "Don't have an account?",
   "signUp": "SIGN UP",
   "or": "Or",
-
   "somethingWentWrong": "Something went wrong",
   "retry": "Retry",
   "emailRequired": "Please enter your email",
-  "passwordRequired": "Please enter your password"
+  "passwordRequired": "Please enter your password",
+  "emailInvalid": "Please enter a valid email address",
+  "passwordTooShort": "Password must be at least 6 characters"
 }

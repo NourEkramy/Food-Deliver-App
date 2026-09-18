@@ -83,10 +83,7 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
-          textStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-          ),
+          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
         ),
       ),
 

@@ -24,7 +24,9 @@ android {
         applicationId = "com.example.food_delivery"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        // flutter_secure_storage 10.x requires API 23+ for the Android Keystore
+        // encryption it uses to protect the saved API key.
+        minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

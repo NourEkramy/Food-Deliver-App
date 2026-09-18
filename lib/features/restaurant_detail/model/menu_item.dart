@@ -17,7 +17,7 @@ class MenuItem {
     this.imageUrl,
   });
 
-  factory MenuItem.fromJson(Map<String, dynamic> json){
+  factory MenuItem.fromJson(Map<String, dynamic> json) {
     return MenuItem(
       itemID: json["itemID"] as int,
       restaurantID: json["restaurantID"] as int,
@@ -26,8 +26,6 @@ class MenuItem {
       itemName: json["itemName"] as String,
       restaurantName: json["restaurantName"] as String,
       imageUrl: json["imageUrl"] as String?,
-
     );
   }
-
 }

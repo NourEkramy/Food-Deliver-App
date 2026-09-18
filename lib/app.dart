@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/network/api_client.dart';
 import 'core/network/api_config.dart';
+import 'core/storage/session_storage.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/cubit/auth_cubit.dart';
 import 'features/auth/repository/auth_repository.dart';
-import 'features/auth/view/login_screen.dart';
+import 'features/auth/view/auth_gate.dart';
 import 'l10n/app_localizations.dart';
 
 class MyApp extends StatelessWidget {
@@ -17,7 +18,10 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       // Auth uses a plain client: you cannot send an API key on the request
       // whose whole purpose is to go and fetch one.
-      create: (_) => AuthCubit(AuthRepository(ApiConfig.createDio())),
+      create: (_) => AuthCubit(
+        AuthRepository(ApiConfig.createDio()),
+        const SecureSessionStorage(),
+      ),
       child: Builder(
         // This Builder exists so `context.read<AuthCubit>()` below can see the
         // BlocProvider above it — a context can only read providers declared by
@@ -40,9 +44,12 @@ class MyApp extends StatelessWidget {
               // onGenerateTitle (rather than `title`) runs with a context that
               // has localizations available, so the task-switcher name is
               // translated as well.
-              onGenerateTitle: (context) => AppLocalizations.of(context).appName,
+              onGenerateTitle: (context) =>
+                  AppLocalizations.of(context).appName,
 
-              home: const LoginScreen(),
+              // AuthGate decides between the login screen and the app itself,
+              // once it has checked storage for a remembered session.
+              home: const AuthGate(),
             ),
           );
         },

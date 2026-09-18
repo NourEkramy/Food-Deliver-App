@@ -1,18 +1,13 @@
 {
   "@@locale": "ar",
-
   "appName": "توصيل الطعام",
-
   "deliveryTo": "التوصيل إلى",
-
   "greeting": "مرحباً {name}، طاب مساؤك!",
-
   "searchHint": "ابحث عن أطباق أو مطاعم",
   "allCategories": "كل التصنيفات",
   "seeAll": "عرض الكل",
   "openRestaurants": "المطاعم المفتوحة",
   "all": "الكل",
-
   "logIn": "تسجيل الدخول",
   "loginSubtitle": "الرجاء تسجيل الدخول إلى حسابك",
   "email": "البريد الإلكتروني",
@@ -23,9 +18,10 @@
   "dontHaveAccount": "ليس لديك حساب؟",
   "signUp": "إنشاء حساب",
   "or": "أو",
-
   "somethingWentWrong": "حدث خطأ ما",
   "retry": "إعادة المحاولة",
   "emailRequired": "الرجاء إدخال بريدك الإلكتروني",
-  "passwordRequired": "الرجاء إدخال كلمة المرور"
+  "passwordRequired": "الرجاء إدخال كلمة المرور",
+  "emailInvalid": "الرجاء إدخال بريد إلكتروني صحيح",
+  "passwordTooShort": "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
 }

@@ -20,7 +20,9 @@ class RestaurantDetailRepository {
     try {
       final response = await dio.get('/Restaurant/$id/menu');
       final data = response.data as List;
-      return data.map((json) => MenuItem.fromJson(json as Map<String, dynamic>)).toList();
+      return data
+          .map((json) => MenuItem.fromJson(json as Map<String, dynamic>))
+          .toList();
     } on DioException catch (e) {
       throw Exception('Failed to load menu: ${e.message}');
     }

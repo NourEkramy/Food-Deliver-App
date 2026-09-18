@@ -14,6 +14,10 @@ class AppColors {
   /// Dark panels: the login header, splash background, cart badge.
   static const Color dark = Color(0xFF121223);
 
+  /// The faint radiating "fan" drawn on the dark auth header — barely lighter
+  /// than [dark] itself.
+  static const Color darkAccent = Color(0xFF1E1E2E);
+
   /// Headings and body copy.
   static const Color textPrimary = Color(0xFF181C2E);
 

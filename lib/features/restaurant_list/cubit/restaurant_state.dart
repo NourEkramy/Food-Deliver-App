@@ -21,7 +21,7 @@ class RestaurantLoaded extends RestaurantState {
   List<Object?> get props => [restaurants];
 }
 
-class RestaurantError extends RestaurantState{
+class RestaurantError extends RestaurantState {
   final String message;
 
   const RestaurantError(this.message);
