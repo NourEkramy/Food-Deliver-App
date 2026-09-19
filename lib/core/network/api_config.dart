@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import 'api_log_interceptor.dart';
+
 /// Single source of truth for how we talk to the backend.
 ///
 /// Both the authenticated client ([ApiClient]) and the plain client used for
@@ -23,6 +25,6 @@ class ApiConfig {
         connectTimeout: connectTimeout,
         receiveTimeout: receiveTimeout,
       ),
-    );
+    )..interceptors.add(ApiLogInterceptor());
   }
 }

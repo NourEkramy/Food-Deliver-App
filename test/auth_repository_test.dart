@@ -66,10 +66,9 @@ void main() {
     });
 
     test('falls back to the supplied email when the body omits it', () {
-      final r = AuthResponse.tryParse(
-        {'usercode': 'KEY-1'},
-        fallbackEmail: 'nour@example.com',
-      );
+      final r = AuthResponse.tryParse({
+        'usercode': 'KEY-1',
+      }, fallbackEmail: 'nour@example.com');
 
       expect(r?.userEmail, 'nour@example.com');
     });
@@ -84,16 +83,18 @@ void main() {
       final result = await repoWith(adapter).register('a@b.com', 'secret');
 
       expect(result.apiKey, 'KEY-1');
-      expect(adapter.calls, ['/User/register'], reason: 'no extra login needed');
+      expect(adapter.calls, [
+        '/User/register',
+      ], reason: 'no extra login needed');
     });
 
     test('logs in when the API acknowledges without a code', () async {
       final adapter = StubAdapter({
         '/User/register': (200, {'message': 'User registered successfully'}),
-        '/User/getusercode': (200, {
-          'userEmail': 'a@b.com',
-          'usercode': 'KEY-2',
-        }),
+        '/User/getusercode': (
+          200,
+          {'userEmail': 'a@b.com', 'usercode': 'KEY-2'},
+        ),
       });
 
       final result = await repoWith(adapter).register('a@b.com', 'secret');
@@ -123,11 +124,16 @@ void main() {
 
     test('unwraps an ASP.NET validation error', () async {
       final adapter = StubAdapter({
-        '/User/register': (400, {
-          'errors': {
-            'UserEmail': ['The UserEmail field is not a valid e-mail address.'],
+        '/User/register': (
+          400,
+          {
+            'errors': {
+              'UserEmail': [
+                'The UserEmail field is not a valid e-mail address.',
+              ],
+            },
           },
-        }),
+        ),
       });
 
       expect(
