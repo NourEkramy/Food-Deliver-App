@@ -84,4 +84,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logout => 'Log Out';
+
+  @override
+  String get signUpTitle => 'Sign Up';
+
+  @override
+  String get signUpSubtitle => 'Please sign up to get started';
+
+  @override
+  String get name => 'NAME';
+
+  @override
+  String get nameHint => 'John doe';
+
+  @override
+  String get retypePassword => 'RE-TYPE PASSWORD';
+
+  @override
+  String get nameRequired => 'Please enter your name';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get accountCreated => 'Account created. Welcome!';
 }

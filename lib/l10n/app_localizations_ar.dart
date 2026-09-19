@@ -84,4 +84,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get logout => 'تسجيل الخروج';
+
+  @override
+  String get signUpTitle => 'إنشاء حساب';
+
+  @override
+  String get signUpSubtitle => 'الرجاء إنشاء حساب للبدء';
+
+  @override
+  String get name => 'الاسم';
+
+  @override
+  String get nameHint => 'محمد أحمد';
+
+  @override
+  String get retypePassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get nameRequired => 'الرجاء إدخال اسمك';
+
+  @override
+  String get passwordsDoNotMatch => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get accountCreated => 'تم إنشاء الحساب. أهلاً بك!';
 }

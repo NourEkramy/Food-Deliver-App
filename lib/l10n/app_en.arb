@@ -39,5 +39,13 @@
   "passwordRequired": "Please enter your password",
   "emailInvalid": "Please enter a valid email address",
   "passwordTooShort": "Password must be at least 6 characters",
-  "logout": "Log Out"
+  "logout": "Log Out",
+  "signUpTitle": "Sign Up",
+  "signUpSubtitle": "Please sign up to get started",
+  "name": "NAME",
+  "nameHint": "John doe",
+  "retypePassword": "RE-TYPE PASSWORD",
+  "nameRequired": "Please enter your name",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "accountCreated": "Account created. Welcome!"
 }

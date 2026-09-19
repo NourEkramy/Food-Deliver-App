@@ -25,6 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
         status: AuthStatus.signedIn,
         apiKey: session.apiKey,
         email: session.email,
+        name: session.name,
       ),
     );
   }
@@ -45,15 +46,27 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  /// [name] is stored on this device only — the API has no name field. It is
+  /// what the home screen greets the user by.
+  ///
+  /// Unlike [login], this defaults to remembering the session: the designed
+  /// sign-up screen has no "Remember me" checkbox, and someone who has just
+  /// created an account does not expect the next launch to sign them out.
   Future<void> register(
     String email,
     String password, {
-    bool rememberMe = false,
+    String name = '',
+    bool rememberMe = true,
   }) async {
     emit(state.copyWith(isLoading: true));
     try {
       final response = await repository.register(email, password);
-      await _onAuthenticated(response.apiKey, email, rememberMe: rememberMe);
+      await _onAuthenticated(
+        response.apiKey,
+        email,
+        name: name,
+        rememberMe: rememberMe,
+      );
     } catch (e) {
       emit(state.copyWith(isLoading: false, errorMessage: _message(e)));
     }
@@ -70,9 +83,10 @@ class AuthCubit extends Cubit<AuthState> {
     String apiKey,
     String email, {
     required bool rememberMe,
+    String name = '',
   }) async {
     if (rememberMe) {
-      await storage.save(Session(apiKey: apiKey, email: email));
+      await storage.save(Session(apiKey: apiKey, email: email, name: name));
     }
 
     emit(
@@ -81,6 +95,7 @@ class AuthCubit extends Cubit<AuthState> {
         isLoading: false,
         apiKey: apiKey,
         email: email,
+        name: name,
       ),
     );
   }

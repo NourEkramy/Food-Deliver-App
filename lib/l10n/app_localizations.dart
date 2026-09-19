@@ -247,6 +247,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log Out'**
   String get logout;
+
+  /// No description provided for @signUpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUpTitle;
+
+  /// No description provided for @signUpSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign up to get started'**
+  String get signUpSubtitle;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'NAME'**
+  String get name;
+
+  /// No description provided for @nameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'John doe'**
+  String get nameHint;
+
+  /// No description provided for @retypePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'RE-TYPE PASSWORD'**
+  String get retypePassword;
+
+  /// No description provided for @nameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your name'**
+  String get nameRequired;
+
+  /// No description provided for @passwordsDoNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatch;
+
+  /// No description provided for @accountCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created. Welcome!'**
+  String get accountCreated;
 }
 
 class _AppLocalizationsDelegate

@@ -24,5 +24,13 @@
   "passwordRequired": "الرجاء إدخال كلمة المرور",
   "emailInvalid": "الرجاء إدخال بريد إلكتروني صحيح",
   "passwordTooShort": "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
-  "logout": "تسجيل الخروج"
+  "logout": "تسجيل الخروج",
+  "signUpTitle": "إنشاء حساب",
+  "signUpSubtitle": "الرجاء إنشاء حساب للبدء",
+  "name": "الاسم",
+  "nameHint": "محمد أحمد",
+  "retypePassword": "تأكيد كلمة المرور",
+  "nameRequired": "الرجاء إدخال اسمك",
+  "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين",
+  "accountCreated": "تم إنشاء الحساب. أهلاً بك!"
 }

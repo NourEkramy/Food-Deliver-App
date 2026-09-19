@@ -1,11 +1,18 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// A signed-in user's saved credentials.
+///
+/// [name] is ours, not the server's: `/User/register` accepts only an email and
+/// a password, so the name the sign-up form collects lives only on this device.
+/// It exists to feed the home screen's greeting, which otherwise has nothing to
+/// address the user by. It is empty for anyone who signed in rather than
+/// registered on this device.
 class Session {
   final String apiKey;
   final String email;
+  final String name;
 
-  const Session({required this.apiKey, required this.email});
+  const Session({required this.apiKey, required this.email, this.name = ''});
 }
 
 /// What the app needs from persistent storage to remember a signed-in user.
@@ -29,6 +36,7 @@ abstract class SessionStorage {
 class SecureSessionStorage implements SessionStorage {
   static const _apiKeyKey = 'session_api_key';
   static const _emailKey = 'session_email';
+  static const _nameKey = 'session_name';
 
   final FlutterSecureStorage _storage;
 
@@ -38,20 +46,24 @@ class SecureSessionStorage implements SessionStorage {
   Future<Session?> read() async {
     final apiKey = await _storage.read(key: _apiKeyKey);
     final email = await _storage.read(key: _emailKey);
+    final name = await _storage.read(key: _nameKey);
 
+    // The API key is what makes a session usable; email and name are extras.
     if (apiKey == null || apiKey.isEmpty) return null;
-    return Session(apiKey: apiKey, email: email ?? '');
+    return Session(apiKey: apiKey, email: email ?? '', name: name ?? '');
   }
 
   @override
   Future<void> save(Session session) async {
     await _storage.write(key: _apiKeyKey, value: session.apiKey);
     await _storage.write(key: _emailKey, value: session.email);
+    await _storage.write(key: _nameKey, value: session.name);
   }
 
   @override
   Future<void> clear() async {
     await _storage.delete(key: _apiKeyKey);
     await _storage.delete(key: _emailKey);
+    await _storage.delete(key: _nameKey);
   }
 }
