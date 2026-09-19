@@ -7,8 +7,12 @@ plugins {
 
 android {
     namespace = "com.example.food_delivery"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+
+    // Pinned above Flutter's defaults because flutter_secure_storage is built
+    // against SDK 36 and NDK 27. Compiling against a newer SDK does not change
+    // which devices can install the app — that is minSdk, set to 23 below.
+    compileSdk = 36
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
