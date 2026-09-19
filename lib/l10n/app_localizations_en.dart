@@ -138,4 +138,124 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noRestaurants => 'No restaurants here yet';
+
+  @override
+  String get restaurantView => 'Restaurant View';
+
+  @override
+  String get details => 'Details';
+
+  @override
+  String get menuSection => 'Menu';
+
+  @override
+  String get sortByPrice => 'Sort by price';
+
+  @override
+  String get priceLowToHigh => 'Lowest price';
+
+  @override
+  String get priceHighToLow => 'Highest price';
+
+  @override
+  String get addToCart => 'ADD TO CART';
+
+  @override
+  String get quantity => 'Quantity';
+
+  @override
+  String get cart => 'Cart';
+
+  @override
+  String get cartEmpty => 'Your cart is empty';
+
+  @override
+  String get cartEmptyHint => 'Add dishes from a restaurant to get started';
+
+  @override
+  String get deliveryAddress => 'DELIVERY ADDRESS';
+
+  @override
+  String get totalLabel => 'TOTAL';
+
+  @override
+  String get placeOrder => 'PLACE ORDER';
+
+  @override
+  String get orderPlaced => 'Order placed';
+
+  @override
+  String get removeItem => 'Remove';
+
+  @override
+  String get clearCart => 'Clear cart';
+
+  @override
+  String get newCartTitle => 'Start a new cart?';
+
+  @override
+  String newCartBody(String restaurant) {
+    return 'Your cart has items from $restaurant. Ordering from somewhere else will empty it.';
+  }
+
+  @override
+  String get startNewCart => 'Start new cart';
+
+  @override
+  String get keepCart => 'Keep my cart';
+
+  @override
+  String get myOrders => 'My Orders';
+
+  @override
+  String get ordersEmpty => 'You have not ordered anything yet';
+
+  @override
+  String get cancelOrder => 'Cancel';
+
+  @override
+  String get orderCancelled => 'Order cancelled';
+
+  @override
+  String orderNumber(String id) {
+    return '#$id';
+  }
+
+  @override
+  String itemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get searchDishes => 'Dishes';
+
+  @override
+  String get searchRestaurants => 'Restaurants';
+
+  @override
+  String get noResults => 'Nothing matched that';
+
+  @override
+  String get searchPrompt => 'Search for a dish or a restaurant';
+
+  @override
+  String get addedToCart => 'Added to cart';
+
+  @override
+  String get viewCart => 'View cart';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get cancelAction => 'Cancel';
 }

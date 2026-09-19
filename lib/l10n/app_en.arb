@@ -62,5 +62,62 @@
   "setDeliveryAddress": "Set delivery address",
   "menuLabel": "Menu",
   "cartLabel": "Cart",
-  "noRestaurants": "No restaurants here yet"
+  "noRestaurants": "No restaurants here yet",
+  "restaurantView": "Restaurant View",
+  "details": "Details",
+  "menuSection": "Menu",
+  "sortByPrice": "Sort by price",
+  "priceLowToHigh": "Lowest price",
+  "priceHighToLow": "Highest price",
+  "addToCart": "ADD TO CART",
+  "quantity": "Quantity",
+  "cart": "Cart",
+  "cartEmpty": "Your cart is empty",
+  "cartEmptyHint": "Add dishes from a restaurant to get started",
+  "deliveryAddress": "DELIVERY ADDRESS",
+  "totalLabel": "TOTAL",
+  "placeOrder": "PLACE ORDER",
+  "orderPlaced": "Order placed",
+  "removeItem": "Remove",
+  "clearCart": "Clear cart",
+  "newCartTitle": "Start a new cart?",
+  "newCartBody": "Your cart has items from {restaurant}. Ordering from somewhere else will empty it.",
+  "@newCartBody": {
+    "placeholders": {
+      "restaurant": {
+        "type": "String"
+      }
+    }
+  },
+  "startNewCart": "Start new cart",
+  "keepCart": "Keep my cart",
+  "myOrders": "My Orders",
+  "ordersEmpty": "You have not ordered anything yet",
+  "cancelOrder": "Cancel",
+  "orderCancelled": "Order cancelled",
+  "orderNumber": "#{id}",
+  "@orderNumber": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "itemCount": "{count, plural, =1{1 item} other{{count} items}}",
+  "@itemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "search": "Search",
+  "searchDishes": "Dishes",
+  "searchRestaurants": "Restaurants",
+  "noResults": "Nothing matched that",
+  "searchPrompt": "Search for a dish or a restaurant",
+  "addedToCart": "Added to cart",
+  "viewCart": "View cart",
+  "confirm": "Confirm",
+  "cancelAction": "Cancel"
 }

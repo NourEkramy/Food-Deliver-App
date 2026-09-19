@@ -5,6 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:food_delivery/core/theme/app_theme.dart';
 import 'package:food_delivery/features/auth/cubit/auth_cubit.dart';
 import 'package:food_delivery/features/auth/cubit/auth_state.dart';
+import 'package:food_delivery/features/cart/cubit/cart_cubit.dart';
+import 'package:food_delivery/features/orders/model/order.dart';
+import 'package:food_delivery/features/orders/repository/order_repository.dart';
 import 'package:food_delivery/features/restaurant_list/cubit/restaurant_cubit.dart';
 import 'package:food_delivery/features/restaurant_list/model/restaurant.dart';
 import 'package:food_delivery/features/restaurant_list/repository/restaurant_repository.dart';
@@ -12,6 +15,37 @@ import 'package:food_delivery/features/restaurant_list/view/restaurant_list_scre
 import 'package:food_delivery/l10n/app_localizations.dart';
 
 import 'auth_cubit_test.dart';
+
+/// Records what was sent instead of talking to the network.
+class FakeOrderRepository extends OrderRepository {
+  final List<Order> orders;
+  final String? failWith;
+  final List<({int restaurantId, Map<String, int> items})> placed = [];
+  final List<String> cancelled = [];
+
+  FakeOrderRepository({this.orders = const [], this.failWith}) : super(Dio());
+
+  @override
+  Future<List<Order>> getOrders() async {
+    if (failWith != null) throw Exception(failWith);
+    return orders;
+  }
+
+  @override
+  Future<void> placeOrder({
+    required int restaurantId,
+    required Map<String, int> quantitiesByItemName,
+  }) async {
+    if (failWith != null) throw Exception(failWith);
+    placed.add((restaurantId: restaurantId, items: quantitiesByItemName));
+  }
+
+  @override
+  Future<void> cancelOrder(String masterId) async {
+    if (failWith != null) throw Exception(failWith);
+    cancelled.add(masterId);
+  }
+}
 
 class FakeRestaurantRepository extends RestaurantRepository {
   final List<Restaurant> restaurants;
@@ -75,6 +109,7 @@ Future<void> pumpHome(
     MultiBlocProvider(
       providers: [
         BlocProvider.value(value: auth),
+        BlocProvider(create: (_) => CartCubit(FakeOrderRepository())),
         BlocProvider(
           create: (_) => RestaurantCubit(
             FakeRestaurantRepository(

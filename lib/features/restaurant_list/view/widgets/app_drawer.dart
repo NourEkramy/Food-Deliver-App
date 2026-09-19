@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../routes.dart';
 import '../../../auth/cubit/auth_cubit.dart';
 
 /// The side menu behind the home screen's menu button.
@@ -67,6 +68,20 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
             const Divider(color: Colors.white12, height: 1),
+            ListTile(
+              leading: const Icon(
+                Icons.receipt_long_outlined,
+                color: AppColors.white,
+              ),
+              title: Text(
+                l10n.myOrders,
+                style: const TextStyle(color: AppColors.white, fontSize: 15),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                AppRoutes.openOrders(context);
+              },
+            ),
             const Spacer(),
             ListTile(
               leading: const Icon(Icons.logout, color: AppColors.white),

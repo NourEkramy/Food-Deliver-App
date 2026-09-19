@@ -337,6 +337,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No restaurants here yet'**
   String get noRestaurants;
+
+  /// No description provided for @restaurantView.
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurant View'**
+  String get restaurantView;
+
+  /// No description provided for @details.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get details;
+
+  /// No description provided for @menuSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get menuSection;
+
+  /// No description provided for @sortByPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by price'**
+  String get sortByPrice;
+
+  /// No description provided for @priceLowToHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest price'**
+  String get priceLowToHigh;
+
+  /// No description provided for @priceHighToLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Highest price'**
+  String get priceHighToLow;
+
+  /// No description provided for @addToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD TO CART'**
+  String get addToCart;
+
+  /// No description provided for @quantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get quantity;
+
+  /// No description provided for @cart.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart'**
+  String get cart;
+
+  /// No description provided for @cartEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty'**
+  String get cartEmpty;
+
+  /// No description provided for @cartEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add dishes from a restaurant to get started'**
+  String get cartEmptyHint;
+
+  /// No description provided for @deliveryAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'DELIVERY ADDRESS'**
+  String get deliveryAddress;
+
+  /// No description provided for @totalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'TOTAL'**
+  String get totalLabel;
+
+  /// No description provided for @placeOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'PLACE ORDER'**
+  String get placeOrder;
+
+  /// No description provided for @orderPlaced.
+  ///
+  /// In en, this message translates to:
+  /// **'Order placed'**
+  String get orderPlaced;
+
+  /// No description provided for @removeItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeItem;
+
+  /// No description provided for @clearCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear cart'**
+  String get clearCart;
+
+  /// No description provided for @newCartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a new cart?'**
+  String get newCartTitle;
+
+  /// No description provided for @newCartBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart has items from {restaurant}. Ordering from somewhere else will empty it.'**
+  String newCartBody(String restaurant);
+
+  /// No description provided for @startNewCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start new cart'**
+  String get startNewCart;
+
+  /// No description provided for @keepCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep my cart'**
+  String get keepCart;
+
+  /// No description provided for @myOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'My Orders'**
+  String get myOrders;
+
+  /// No description provided for @ordersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not ordered anything yet'**
+  String get ordersEmpty;
+
+  /// No description provided for @cancelOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelOrder;
+
+  /// No description provided for @orderCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Order cancelled'**
+  String get orderCancelled;
+
+  /// No description provided for @orderNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'#{id}'**
+  String orderNumber(String id);
+
+  /// No description provided for @itemCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item} other{{count} items}}'**
+  String itemCount(int count);
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// No description provided for @searchDishes.
+  ///
+  /// In en, this message translates to:
+  /// **'Dishes'**
+  String get searchDishes;
+
+  /// No description provided for @searchRestaurants.
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurants'**
+  String get searchRestaurants;
+
+  /// No description provided for @noResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matched that'**
+  String get noResults;
+
+  /// No description provided for @searchPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for a dish or a restaurant'**
+  String get searchPrompt;
+
+  /// No description provided for @addedToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to cart'**
+  String get addedToCart;
+
+  /// No description provided for @viewCart.
+  ///
+  /// In en, this message translates to:
+  /// **'View cart'**
+  String get viewCart;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @cancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelAction;
 }
 
 class _AppLocalizationsDelegate

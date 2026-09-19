@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/cart_badge_button.dart';
 import '../../../../l10n/app_localizations.dart';
 
 /// The top row of the home screen: menu button, delivery address, cart.
@@ -12,14 +13,10 @@ class HomeHeader extends StatelessWidget {
   final VoidCallback onMenuTap;
   final VoidCallback onCartTap;
 
-  /// Shown on the cart badge. The badge is hidden entirely at zero.
-  final int cartCount;
-
   const HomeHeader({
     super.key,
     required this.onMenuTap,
     required this.onCartTap,
-    this.cartCount = 0,
   });
 
   @override
@@ -80,11 +77,7 @@ class HomeHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          _CartButton(
-            onTap: onCartTap,
-            count: cartCount,
-            tooltip: l10n.cartLabel,
-          ),
+          CartBadgeButton(onTap: onCartTap),
         ],
       ),
     );
@@ -117,60 +110,6 @@ class _CircleButton extends StatelessWidget {
           child: SizedBox(height: 45, width: 45, child: Center(child: child)),
         ),
       ),
-    );
-  }
-}
-
-class _CartButton extends StatelessWidget {
-  final VoidCallback onTap;
-  final int count;
-  final String tooltip;
-
-  const _CartButton({
-    required this.onTap,
-    required this.count,
-    required this.tooltip,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      // The badge overhangs the circle, so it must not be clipped.
-      clipBehavior: Clip.none,
-      children: [
-        _CircleButton(
-          onTap: onTap,
-          tooltip: tooltip,
-          background: AppColors.dark,
-          child: const Icon(
-            Icons.shopping_bag_outlined,
-            size: 20,
-            color: AppColors.white,
-          ),
-        ),
-        if (count > 0)
-          PositionedDirectional(
-            top: -4,
-            end: -4,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              constraints: const BoxConstraints(minWidth: 20),
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                '$count',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: AppColors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-      ],
     );
   }
 }

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/network/api_client.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../routes.dart';
 import '../../auth/cubit/auth_cubit.dart';
-import '../../restaurant_detail/cubit/restaurant_detail_cubit.dart';
-import '../../restaurant_detail/repository/restaurant_detail_repository.dart';
-import '../../restaurant_detail/view/restaurant_detail_screen.dart';
 import '../cubit/restaurant_cubit.dart';
 import '../cubit/restaurant_state.dart';
 import '../model/restaurant.dart';
@@ -60,20 +57,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
     }).toList();
   }
 
-  void _openRestaurant(Restaurant restaurant) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => BlocProvider(
-          create: (_) => RestaurantDetailCubit(
-            RestaurantDetailRepository(context.read<ApiClient>().dio),
-          ),
-          child: RestaurantDetailScreen(restaurantId: restaurant.restaurantID),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -89,7 +72,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
               child: Builder(
                 builder: (context) => HomeHeader(
                   onMenuTap: () => Scaffold.of(context).openDrawer(),
-                  onCartTap: () {},
+                  onCartTap: () => AppRoutes.openCart(context),
                 ),
               ),
             ),
@@ -114,7 +97,12 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
           hintText: l10n.searchHint,
           fillColor: AppColors.surfaceGrey,
           suffixIcon: _query.isEmpty
-              ? null
+              ? IconButton(
+                  tooltip: l10n.search,
+                  icon: const Icon(Icons.tune, size: 20),
+                  color: AppColors.hint,
+                  onPressed: () => AppRoutes.openSearch(context),
+                )
               : IconButton(
                   icon: const Icon(Icons.close, size: 18),
                   color: AppColors.hint,
@@ -203,7 +191,10 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
             itemCount: visible.length,
             itemBuilder: (context, index) => RestaurantCard(
               restaurant: visible[index],
-              onTap: () => _openRestaurant(visible[index]),
+              onTap: () => AppRoutes.openRestaurant(
+                context,
+                visible[index].restaurantID,
+              ),
             ),
           ),
         ),

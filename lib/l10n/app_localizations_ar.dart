@@ -141,4 +141,128 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noRestaurants => 'لا توجد مطاعم هنا بعد';
+
+  @override
+  String get restaurantView => 'عرض المطعم';
+
+  @override
+  String get details => 'التفاصيل';
+
+  @override
+  String get menuSection => 'القائمة';
+
+  @override
+  String get sortByPrice => 'ترتيب حسب السعر';
+
+  @override
+  String get priceLowToHigh => 'الأقل سعراً';
+
+  @override
+  String get priceHighToLow => 'الأعلى سعراً';
+
+  @override
+  String get addToCart => 'أضف إلى السلة';
+
+  @override
+  String get quantity => 'الكمية';
+
+  @override
+  String get cart => 'السلة';
+
+  @override
+  String get cartEmpty => 'سلتك فارغة';
+
+  @override
+  String get cartEmptyHint => 'أضف أطباقاً من أحد المطاعم للبدء';
+
+  @override
+  String get deliveryAddress => 'عنوان التوصيل';
+
+  @override
+  String get totalLabel => 'الإجمالي';
+
+  @override
+  String get placeOrder => 'إتمام الطلب';
+
+  @override
+  String get orderPlaced => 'تم إرسال الطلب';
+
+  @override
+  String get removeItem => 'إزالة';
+
+  @override
+  String get clearCart => 'إفراغ السلة';
+
+  @override
+  String get newCartTitle => 'بدء سلة جديدة؟';
+
+  @override
+  String newCartBody(String restaurant) {
+    return 'سلتك تحتوي على أطباق من $restaurant. الطلب من مكان آخر سيفرغها.';
+  }
+
+  @override
+  String get startNewCart => 'ابدأ سلة جديدة';
+
+  @override
+  String get keepCart => 'احتفظ بسلتي';
+
+  @override
+  String get myOrders => 'طلباتي';
+
+  @override
+  String get ordersEmpty => 'لم تطلب أي شيء بعد';
+
+  @override
+  String get cancelOrder => 'إلغاء';
+
+  @override
+  String get orderCancelled => 'تم إلغاء الطلب';
+
+  @override
+  String orderNumber(String id) {
+    return '#$id';
+  }
+
+  @override
+  String itemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر',
+      many: '$count عنصراً',
+      few: '$count عناصر',
+      two: 'عنصران',
+      one: 'عنصر واحد',
+      zero: 'لا عناصر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get search => 'بحث';
+
+  @override
+  String get searchDishes => 'الأطباق';
+
+  @override
+  String get searchRestaurants => 'المطاعم';
+
+  @override
+  String get noResults => 'لا توجد نتائج';
+
+  @override
+  String get searchPrompt => 'ابحث عن طبق أو مطعم';
+
+  @override
+  String get addedToCart => 'أُضيف إلى السلة';
+
+  @override
+  String get viewCart => 'عرض السلة';
+
+  @override
+  String get confirm => 'تأكيد';
+
+  @override
+  String get cancelAction => 'إلغاء';
 }
