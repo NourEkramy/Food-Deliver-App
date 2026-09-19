@@ -32,5 +32,12 @@
   "retypePassword": "تأكيد كلمة المرور",
   "nameRequired": "الرجاء إدخال اسمك",
   "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين",
-  "accountCreated": "تم إنشاء الحساب. أهلاً بك!"
+  "accountCreated": "تم إنشاء الحساب. أهلاً بك!",
+  "dishCount": "{count, plural, =0{لا توجد أطباق} =1{طبق واحد} =2{طبقان} few{{count} أطباق} many{{count} طبقًا} other{{count} طبق}}",
+  "parkingAvailable": "موقف سيارات",
+  "noParking": "لا يوجد موقف",
+  "setDeliveryAddress": "حدد عنوان التوصيل",
+  "menuLabel": "القائمة",
+  "cartLabel": "السلة",
+  "noRestaurants": "لا توجد مطاعم هنا بعد"
 }

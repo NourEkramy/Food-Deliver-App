@@ -295,6 +295,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Account created. Welcome!'**
   String get accountCreated;
+
+  /// Number of menu items a restaurant has.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No dishes} =1{1 dish} other{{count} dishes}}'**
+  String dishCount(int count);
+
+  /// No description provided for @parkingAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Parking'**
+  String get parkingAvailable;
+
+  /// No description provided for @noParking.
+  ///
+  /// In en, this message translates to:
+  /// **'No parking'**
+  String get noParking;
+
+  /// No description provided for @setDeliveryAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Set delivery address'**
+  String get setDeliveryAddress;
+
+  /// No description provided for @menuLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get menuLabel;
+
+  /// No description provided for @cartLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart'**
+  String get cartLabel;
+
+  /// No description provided for @noRestaurants.
+  ///
+  /// In en, this message translates to:
+  /// **'No restaurants here yet'**
+  String get noRestaurants;
 }
 
 class _AppLocalizationsDelegate

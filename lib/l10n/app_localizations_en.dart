@@ -108,4 +108,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountCreated => 'Account created. Welcome!';
+
+  @override
+  String dishCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dishes',
+      one: '1 dish',
+      zero: 'No dishes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get parkingAvailable => 'Parking';
+
+  @override
+  String get noParking => 'No parking';
+
+  @override
+  String get setDeliveryAddress => 'Set delivery address';
+
+  @override
+  String get menuLabel => 'Menu';
+
+  @override
+  String get cartLabel => 'Cart';
+
+  @override
+  String get noRestaurants => 'No restaurants here yet';
 }

@@ -47,5 +47,20 @@
   "retypePassword": "RE-TYPE PASSWORD",
   "nameRequired": "Please enter your name",
   "passwordsDoNotMatch": "Passwords do not match",
-  "accountCreated": "Account created. Welcome!"
+  "accountCreated": "Account created. Welcome!",
+  "dishCount": "{count, plural, =0{No dishes} =1{1 dish} other{{count} dishes}}",
+  "@dishCount": {
+    "description": "Number of menu items a restaurant has.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "parkingAvailable": "Parking",
+  "noParking": "No parking",
+  "setDeliveryAddress": "Set delivery address",
+  "menuLabel": "Menu",
+  "cartLabel": "Cart",
+  "noRestaurants": "No restaurants here yet"
 }

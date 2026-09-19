@@ -108,4 +108,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get accountCreated => 'تم إنشاء الحساب. أهلاً بك!';
+
+  @override
+  String dishCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count طبق',
+      many: '$count طبقًا',
+      few: '$count أطباق',
+      two: 'طبقان',
+      one: 'طبق واحد',
+      zero: 'لا توجد أطباق',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get parkingAvailable => 'موقف سيارات';
+
+  @override
+  String get noParking => 'لا يوجد موقف';
+
+  @override
+  String get setDeliveryAddress => 'حدد عنوان التوصيل';
+
+  @override
+  String get menuLabel => 'القائمة';
+
+  @override
+  String get cartLabel => 'السلة';
+
+  @override
+  String get noRestaurants => 'لا توجد مطاعم هنا بعد';
 }
