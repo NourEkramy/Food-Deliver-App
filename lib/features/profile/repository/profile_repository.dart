@@ -1,39 +1,36 @@
 import 'package:dio/dio.dart';
 
-/// Updates and deletes the signed-in user.
+/// Changes the signed-in user's password, or deletes their account.
 ///
-/// The endpoint has an unusual shape, worked out by probing it: the new
-/// password is a **query parameter** and the new email is the request body as a
-/// bare JSON string, not an object.
+/// The update endpoint takes a single `[FromBody] string NewPassword`:
 ///
-///     PUT /User/{apikey}?NewPassword=<password>
-///     "<new email>"
+///     PUT /User/{apikey}
+///     "<new password>"
 ///
-/// Sending an object instead produces
-/// "The JSON value could not be converted to System.String", and omitting
-/// NewPassword produces "The NewPassword field is required" — which is why the
-/// edit form always asks for a password, even when only the email changed.
+/// The body is a bare JSON string, not an object — an object returns
+/// "The JSON value could not be converted to System.String", and the companion
+/// "The NewPassword field is required" is the same parameter reported again
+/// rather than a second, separate one.
+///
+/// Note what is *not* here: nothing changes an email address. A password is
+/// the only server-side field a user can alter, which is why editing a profile
+/// is otherwise a purely local operation.
 class ProfileRepository {
   final Dio dio;
 
   ProfileRepository(this.dio);
 
-  /// The API key is the user's identity here, so it is in the path rather than
-  /// left to the interceptor.
-  Future<void> updateProfile({
+  /// The API key identifies the user, so it goes in the path rather than being
+  /// left to the interceptor to attach as a query parameter.
+  Future<void> changePassword({
     required String apiKey,
-    required String email,
     required String newPassword,
   }) async {
     try {
-      await dio.put(
-        '/User/$apiKey',
-        queryParameters: {'NewPassword': newPassword},
-        data: email,
-      );
+      await dio.put('/User/$apiKey', data: newPassword);
     } on DioException catch (e) {
       throw Exception(
-        _readableError(e, fallback: 'Could not save your profile'),
+        _readableError(e, fallback: 'Could not change your password'),
       );
     }
   }

@@ -602,12 +602,6 @@ abstract class AppLocalizations {
   /// **'Profile updated'**
   String get profileUpdated;
 
-  /// No description provided for @passwordNeededToSave.
-  ///
-  /// In en, this message translates to:
-  /// **'The server requires a password with every profile change, so enter one to save.'**
-  String get passwordNeededToSave;
-
   /// No description provided for @nameStoredLocally.
   ///
   /// In en, this message translates to:
@@ -619,6 +613,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'ACCOUNT'**
   String get accountSection;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePassword;
+
+  /// No description provided for @changePasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new password for your account'**
+  String get changePasswordSubtitle;
+
+  /// No description provided for @passwordChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed'**
+  String get passwordChanged;
+
+  /// No description provided for @emailCannotChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email cannot be changed on this account'**
+  String get emailCannotChange;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get deleteAccount;
+
+  /// No description provided for @deleteAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account?'**
+  String get deleteAccountTitle;
+
+  /// No description provided for @deleteAccountBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently deletes your account and you will be signed out. It cannot be undone.'**
+  String get deleteAccountBody;
+
+  /// No description provided for @accountDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Account deleted'**
+  String get accountDeleted;
+
+  /// No description provided for @saveName.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE'**
+  String get saveName;
 }
 
 class _AppLocalizationsDelegate

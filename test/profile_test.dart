@@ -10,14 +10,16 @@ import 'package:food_delivery/core/theme/app_theme.dart';
 import 'package:food_delivery/features/auth/cubit/auth_cubit.dart';
 import 'package:food_delivery/features/auth/cubit/auth_state.dart';
 import 'package:food_delivery/features/profile/cubit/profile_cubit.dart';
+import 'package:food_delivery/features/profile/cubit/profile_state.dart';
 import 'package:food_delivery/features/profile/repository/profile_repository.dart';
+import 'package:food_delivery/features/profile/view/change_password_screen.dart';
 import 'package:food_delivery/features/profile/view/edit_profile_screen.dart';
 import 'package:food_delivery/features/profile/view/profile_screen.dart';
 import 'package:food_delivery/l10n/app_localizations.dart';
 
 import 'auth_cubit_test.dart';
 
-/// Records the whole request so the endpoint's unusual shape can be asserted.
+/// Records the whole request so the endpoint's exact shape can be asserted.
 class RecordingAdapter implements HttpClientAdapter {
   final int status;
   final Object body;
@@ -51,6 +53,21 @@ ProfileRepository repoWith(RecordingAdapter adapter) {
   return ProfileRepository(dio);
 }
 
+Widget wrap(Widget child, {required AuthCubit auth, ProfileCubit? profile}) {
+  return MultiBlocProvider(
+    providers: [
+      BlocProvider.value(value: auth),
+      if (profile != null) BlocProvider.value(value: profile),
+    ],
+    child: MaterialApp(
+      theme: AppTheme.light,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: child,
+    ),
+  );
+}
+
 /// Pumps a profile screen at a viewport tall enough for the whole form.
 ///
 /// The default 800x600 test window puts the SAVE button below the fold, where
@@ -67,21 +84,6 @@ Future<void> pumpProfile(
 
   await tester.pumpWidget(wrap(child, auth: auth, profile: profile));
   await tester.pumpAndSettle();
-}
-
-Widget wrap(Widget child, {required AuthCubit auth, ProfileCubit? profile}) {
-  return MultiBlocProvider(
-    providers: [
-      BlocProvider.value(value: auth),
-      if (profile != null) BlocProvider.value(value: profile),
-    ],
-    child: MaterialApp(
-      theme: AppTheme.light,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: child,
-    ),
-  );
 }
 
 AuthCubit signedInCubit({
@@ -106,38 +108,34 @@ AuthCubit signedInCubit({
 
 void main() {
   group('the PUT contract', () {
-    // Worked out by probing the live endpoint: NewPassword is a query
-    // parameter and the new email is the body as a bare JSON string. Sending
-    // an object instead returns "The JSON value could not be converted to
-    // System.String".
-    test('sends the password as a query parameter', () async {
+    // The endpoint takes one [FromBody] string: the new password. An object
+    // body returns "The JSON value could not be converted to System.String",
+    // and the companion "NewPassword is required" is the same parameter
+    // reported again — not a second, separate one.
+    test('sends the password as a bare string body', () async {
       final adapter = RecordingAdapter();
 
-      await repoWith(adapter).updateProfile(
-        apiKey: 'KEY-1',
-        email: 'new@example.com',
-        newPassword: 'secret123',
-      );
+      await repoWith(
+        adapter,
+      ).changePassword(apiKey: 'KEY-1', newPassword: 'secret123');
 
       expect(adapter.last!.method, 'PUT');
       expect(adapter.last!.path, '/User/KEY-1');
-      expect(adapter.last!.queryParameters, {'NewPassword': 'secret123'});
-    });
-
-    test('sends the email as the body, not wrapped in an object', () async {
-      final adapter = RecordingAdapter();
-
-      await repoWith(adapter).updateProfile(
-        apiKey: 'KEY-1',
-        email: 'new@example.com',
-        newPassword: 'secret123',
-      );
-
-      expect(adapter.last!.data, 'new@example.com');
+      expect(adapter.last!.data, 'secret123');
       expect(adapter.last!.data, isNot(isA<Map>()));
     });
 
-    test('puts the api key in the path', () async {
+    test('sends no query parameters', () async {
+      final adapter = RecordingAdapter();
+
+      await repoWith(
+        adapter,
+      ).changePassword(apiKey: 'KEY-1', newPassword: 'secret123');
+
+      expect(adapter.last!.queryParameters, isEmpty);
+    });
+
+    test('deletes by api key in the path', () async {
       final adapter = RecordingAdapter();
       await repoWith(adapter).deleteAccount('KEY-9');
 
@@ -152,11 +150,9 @@ void main() {
       );
 
       expect(
-        () => repoWith(adapter).updateProfile(
-          apiKey: 'bad',
-          email: 'a@b.com',
-          newPassword: 'secret123',
-        ),
+        () => repoWith(
+          adapter,
+        ).changePassword(apiKey: 'bad', newPassword: 'secret123'),
         throwsA(
           isA<Exception>().having(
             (e) => e.toString(),
@@ -168,57 +164,65 @@ void main() {
     });
   });
 
-  group('saving', () {
-    test('updates the live session so the greeting changes', () async {
-      final auth = signedInCubit(name: 'Old', email: 'old@example.com');
-      final profile = ProfileCubit(repoWith(RecordingAdapter()), auth);
+  group('saving the name', () {
+    test('never touches the network', () async {
+      final adapter = RecordingAdapter();
+      final auth = signedInCubit(name: 'Old');
 
-      await profile.save(
-        name: 'New Name',
-        email: 'new@example.com',
-        newPassword: 'secret123',
-      );
+      await ProfileCubit(repoWith(adapter), auth).saveName('New Name');
 
+      // There is no name field on the server, so nothing should have been sent.
+      expect(adapter.last, isNull);
       expect(auth.state.name, 'New Name');
-      expect(auth.state.email, 'new@example.com');
       expect(auth.state.displayName, 'New Name');
-      expect(profile.state.justSaved, isTrue);
+    });
+
+    test('leaves the email alone', () async {
+      final auth = signedInCubit(email: 'nour@example.com');
+
+      await ProfileCubit(repoWith(RecordingAdapter()), auth).saveName('New');
+
+      expect(auth.state.email, 'nour@example.com');
     });
 
     test('re-persists only when the session was remembered', () async {
       final remembered = FakeSessionStorage(
-        const Session(apiKey: 'KEY-1', email: 'old@example.com', name: 'Old'),
+        const Session(apiKey: 'KEY-1', email: 'nour@example.com', name: 'Old'),
       );
       final auth = signedInCubit(storage: remembered);
-      await ProfileCubit(repoWith(RecordingAdapter()), auth).save(
-        name: 'New Name',
-        email: 'new@example.com',
-        newPassword: 'secret123',
-      );
 
-      expect(remembered.saved?.name, 'New Name');
-      expect(remembered.saved?.email, 'new@example.com');
-      // The key is carried through, not dropped.
+      await ProfileCubit(repoWith(RecordingAdapter()), auth).saveName('New');
+
+      expect(remembered.saved?.name, 'New');
+      expect(remembered.saved?.email, 'nour@example.com');
       expect(remembered.saved?.apiKey, 'KEY-1');
     });
 
     test('does not start remembering a session that was not stored', () async {
-      // "Remember me" was off, so saving a profile must not quietly turn it on.
+      // "Remember me" was off, so saving a name must not quietly turn it on.
       final storage = FakeSessionStorage();
       final auth = signedInCubit(storage: storage);
 
-      await ProfileCubit(repoWith(RecordingAdapter()), auth).save(
-        name: 'New Name',
-        email: 'new@example.com',
-        newPassword: 'secret123',
-      );
+      await ProfileCubit(repoWith(RecordingAdapter()), auth).saveName('New');
 
       expect(storage.saved, isNull);
-      expect(auth.state.name, 'New Name', reason: 'memory still updates');
+      expect(auth.state.name, 'New', reason: 'memory still updates');
+    });
+  });
+
+  group('changing the password', () {
+    test('reports success', () async {
+      final auth = signedInCubit();
+      final profile = ProfileCubit(repoWith(RecordingAdapter()), auth);
+
+      await profile.changePassword('secret123');
+
+      expect(profile.state.outcome, ProfileOutcome.passwordChanged);
+      expect(profile.state.errorMessage, isNull);
     });
 
-    test('keeps the session unchanged when the server rejects it', () async {
-      final auth = signedInCubit(name: 'Old', email: 'old@example.com');
+    test('reports the server error and stays put', () async {
+      final auth = signedInCubit();
       final profile = ProfileCubit(
         repoWith(
           RecordingAdapter(
@@ -229,51 +233,85 @@ void main() {
         auth,
       );
 
-      await profile.save(
-        name: 'New Name',
-        email: 'new@example.com',
-        newPassword: 'secret123',
-      );
+      await profile.changePassword('secret123');
 
       expect(profile.state.errorMessage, 'No User Data Found');
-      expect(auth.state.name, 'Old');
-      expect(auth.state.email, 'old@example.com');
+      expect(profile.state.outcome, ProfileOutcome.none);
+      expect(profile.state.isBusy, isFalse);
+    });
+  });
+
+  group('deleting the account', () {
+    test('signs the user out afterwards', () async {
+      final auth = signedInCubit();
+      final profile = ProfileCubit(repoWith(RecordingAdapter()), auth);
+
+      await profile.deleteAccount();
+
+      expect(profile.state.outcome, ProfileOutcome.accountDeleted);
+      // The key now refers to a user that no longer exists.
+      expect(auth.state.status, AuthStatus.signedOut);
+      expect(auth.state.apiKey, isNull);
+    });
+
+    test('keeps the user signed in when the delete fails', () async {
+      final auth = signedInCubit();
+      final profile = ProfileCubit(
+        repoWith(RecordingAdapter(status: 500, body: {'message': 'Nope'})),
+        auth,
+      );
+
+      await profile.deleteAccount();
+
+      expect(profile.state.errorMessage, 'Nope');
+      expect(auth.state.isAuthenticated, isTrue);
     });
   });
 
   group('screens', () {
-    testWidgets('profile shows the name and email from the session', (
+    testWidgets('profile shows the name, email and account actions', (
       tester,
     ) async {
-      await pumpProfile(tester, const ProfileScreen(), auth: signedInCubit());
-
-      expect(find.text('Nour Ekramy'), findsWidgets);
-      expect(find.text('nour@example.com'), findsWidgets);
-      // The name never reaches the server, and the screen says so.
-      expect(find.text('Saved on this device only'), findsOneWidget);
-    });
-
-    testWidgets('the avatar shows initials', (tester) async {
+      final auth = signedInCubit();
       await pumpProfile(
         tester,
         const ProfileScreen(),
-        auth: signedInCubit(name: 'Nour Ekramy'),
+        auth: auth,
+        profile: ProfileCubit(repoWith(RecordingAdapter()), auth),
+      );
+
+      expect(find.text('Nour Ekramy'), findsWidgets);
+      expect(find.text('nour@example.com'), findsWidgets);
+      expect(find.text('Saved on this device only'), findsOneWidget);
+      expect(find.text('Change Password'), findsOneWidget);
+      expect(find.text('Delete account'), findsOneWidget);
+    });
+
+    testWidgets('the avatar shows initials', (tester) async {
+      final auth = signedInCubit(name: 'Nour Ekramy');
+      await pumpProfile(
+        tester,
+        const ProfileScreen(),
+        auth: auth,
+        profile: ProfileCubit(repoWith(RecordingAdapter()), auth),
       );
 
       expect(find.text('NE'), findsOneWidget);
     });
 
     testWidgets('a single-word name gives one initial', (tester) async {
+      final auth = signedInCubit(name: 'Nour');
       await pumpProfile(
         tester,
         const ProfileScreen(),
-        auth: signedInCubit(name: 'Nour'),
+        auth: auth,
+        profile: ProfileCubit(repoWith(RecordingAdapter()), auth),
       );
 
       expect(find.text('N'), findsOneWidget);
     });
 
-    testWidgets('edit pre-fills from the session', (tester) async {
+    testWidgets('edit offers a name field and a locked email', (tester) async {
       final auth = signedInCubit();
       await pumpProfile(
         tester,
@@ -282,11 +320,36 @@ void main() {
         profile: ProfileCubit(repoWith(RecordingAdapter()), auth),
       );
 
-      expect(find.text('Nour Ekramy'), findsWidgets);
-      expect(find.text('nour@example.com'), findsWidgets);
+      // One editable field only — the password is on its own screen now.
+      expect(find.byType(TextFormField), findsOneWidget);
+      expect(find.text('nour@example.com'), findsOneWidget);
+      expect(
+        find.text('Your email cannot be changed on this account'),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('edit refuses to save without a password', (tester) async {
+    testWidgets('edit saves the name without asking for a password', (
+      tester,
+    ) async {
+      final auth = signedInCubit(name: 'Old');
+      final profile = ProfileCubit(repoWith(RecordingAdapter()), auth);
+      await pumpProfile(
+        tester,
+        const EditProfileScreen(),
+        auth: auth,
+        profile: profile,
+      );
+
+      await tester.enterText(find.byType(TextFormField), 'New Name');
+      await tester.tap(find.text('SAVE'));
+      await tester.pumpAndSettle();
+
+      expect(auth.state.name, 'New Name');
+      expect(profile.state.outcome, ProfileOutcome.nameSaved);
+    });
+
+    testWidgets('edit refuses an empty name', (tester) async {
       final auth = signedInCubit();
       final profile = ProfileCubit(repoWith(RecordingAdapter()), auth);
       await pumpProfile(
@@ -296,31 +359,52 @@ void main() {
         profile: profile,
       );
 
+      await tester.enterText(find.byType(TextFormField), '');
       await tester.tap(find.text('SAVE'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Please enter your password'), findsOneWidget);
-      expect(profile.state.justSaved, isFalse);
+      expect(find.text('Please enter your name'), findsOneWidget);
     });
 
-    testWidgets('edit refuses mismatched passwords', (tester) async {
+    testWidgets('change password refuses a mismatch', (tester) async {
       final auth = signedInCubit();
-      final profile = ProfileCubit(repoWith(RecordingAdapter()), auth);
+      final adapter = RecordingAdapter();
+      final profile = ProfileCubit(repoWith(adapter), auth);
       await pumpProfile(
         tester,
-        const EditProfileScreen(),
+        const ChangePasswordScreen(),
         auth: auth,
         profile: profile,
       );
 
       final fields = find.byType(TextFormField);
-      await tester.enterText(fields.at(2), 'secret123');
-      await tester.enterText(fields.at(3), 'different');
+      await tester.enterText(fields.at(0), 'secret123');
+      await tester.enterText(fields.at(1), 'different');
       await tester.tap(find.text('SAVE'));
       await tester.pumpAndSettle();
 
       expect(find.text('Passwords do not match'), findsOneWidget);
-      expect(profile.state.justSaved, isFalse);
+      expect(adapter.last, isNull, reason: 'nothing should have been sent');
+    });
+
+    testWidgets('change password sends a matching pair', (tester) async {
+      final auth = signedInCubit();
+      final adapter = RecordingAdapter();
+      final profile = ProfileCubit(repoWith(adapter), auth);
+      await pumpProfile(
+        tester,
+        const ChangePasswordScreen(),
+        auth: auth,
+        profile: profile,
+      );
+
+      final fields = find.byType(TextFormField);
+      await tester.enterText(fields.at(0), 'secret123');
+      await tester.enterText(fields.at(1), 'secret123');
+      await tester.tap(find.text('SAVE'));
+      await tester.pumpAndSettle();
+
+      expect(adapter.last!.data, 'secret123');
     });
   });
 }

@@ -9,6 +9,7 @@ import 'features/orders/repository/order_repository.dart';
 import 'features/orders/view/orders_screen.dart';
 import 'features/profile/cubit/profile_cubit.dart';
 import 'features/profile/repository/profile_repository.dart';
+import 'features/profile/view/change_password_screen.dart';
 import 'features/profile/view/edit_profile_screen.dart';
 import 'features/profile/view/profile_screen.dart';
 import 'features/restaurant_detail/cubit/restaurant_detail_cubit.dart';
@@ -73,14 +74,23 @@ class AppRoutes {
     );
   }
 
-  /// Reads everything from the session, so it needs no Cubit of its own.
-  static Future<void> openProfile(BuildContext context) {
-    return Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (_) => const ProfileScreen()));
-  }
+  /// The three profile screens each get their own ProfileCubit.
+  ///
+  /// Pushing a route does not carry a provider with it, and none of them needs
+  /// to observe the others — each performs one action and pops.
+  static Future<void> openProfile(BuildContext context) =>
+      _pushWithProfileCubit(context, const ProfileScreen());
 
-  static Future<void> openEditProfile(BuildContext context) {
+  static Future<void> openEditProfile(BuildContext context) =>
+      _pushWithProfileCubit(context, const EditProfileScreen());
+
+  static Future<void> openChangePassword(BuildContext context) =>
+      _pushWithProfileCubit(context, const ChangePasswordScreen());
+
+  static Future<void> _pushWithProfileCubit(
+    BuildContext context,
+    Widget screen,
+  ) {
     final dio = context.read<ApiClient>().dio;
     final auth = context.read<AuthCubit>();
 
@@ -88,7 +98,7 @@ class AppRoutes {
       MaterialPageRoute(
         builder: (_) => BlocProvider(
           create: (_) => ProfileCubit(ProfileRepository(dio), auth),
-          child: const EditProfileScreen(),
+          child: screen,
         ),
       ),
     );

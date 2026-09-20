@@ -128,7 +128,15 @@
   "confirmNewPassword": "CONFIRM PASSWORD",
   "save": "SAVE",
   "profileUpdated": "Profile updated",
-  "passwordNeededToSave": "The server requires a password with every profile change, so enter one to save.",
   "nameStoredLocally": "Saved on this device only",
-  "accountSection": "ACCOUNT"
+  "accountSection": "ACCOUNT",
+  "changePassword": "Change Password",
+  "changePasswordSubtitle": "Choose a new password for your account",
+  "passwordChanged": "Password changed",
+  "emailCannotChange": "Your email cannot be changed on this account",
+  "deleteAccount": "Delete account",
+  "deleteAccountTitle": "Delete your account?",
+  "deleteAccountBody": "This permanently deletes your account and you will be signed out. It cannot be undone.",
+  "accountDeleted": "Account deleted",
+  "saveName": "SAVE"
 }

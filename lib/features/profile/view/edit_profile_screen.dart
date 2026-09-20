@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/app_text_field.dart';
-import '../../../core/widgets/error_banner.dart';
 import '../../../core/widgets/screen_header.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../auth/cubit/auth_cubit.dart';
@@ -11,12 +10,14 @@ import '../cubit/profile_cubit.dart';
 import '../cubit/profile_state.dart';
 import 'profile_screen.dart' show ProfileAvatar;
 
-/// Edits the name and email, and sets a new password.
+/// Edits the display name.
 ///
-/// The design also offers a photo, a phone number and a bio. The API stores
-/// none of those, so they are left out. The password field is not in the design
-/// either, but the endpoint requires `NewPassword` on every update — there is
-/// no way to change an email without also setting a password.
+/// That is genuinely all there is to edit. The API stores an email, a password
+/// and a user code; it offers no name field, and no way to change an email.
+/// The password has its own screen, because changing one is a deliberate act
+/// rather than something to bundle into saving a name.
+///
+/// The design's photo, phone number and bio have no API fields either.
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
 
@@ -27,25 +28,19 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _nameController;
-  late final TextEditingController _emailController;
-  final _passwordController = TextEditingController();
-  final _confirmController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    // Pre-filled from the session so the user edits rather than retypes.
-    final auth = context.read<AuthCubit>().state;
-    _nameController = TextEditingController(text: auth.name ?? '');
-    _emailController = TextEditingController(text: auth.email ?? '');
+    // Pre-filled so the user edits rather than retypes.
+    _nameController = TextEditingController(
+      text: context.read<AuthCubit>().state.name ?? '',
+    );
   }
 
   @override
   void dispose() {
     _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmController.dispose();
     super.dispose();
   }
 
@@ -53,19 +48,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     FocusScope.of(context).unfocus();
     if (!_formKey.currentState!.validate()) return;
 
-    context.read<ProfileCubit>().save(
-      name: _nameController.text.trim(),
-      email: _emailController.text.trim(),
-      newPassword: _passwordController.text,
-    );
+    context.read<ProfileCubit>().saveName(_nameController.text.trim());
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final email = context.select<AuthCubit, String>(
+      (cubit) => cubit.state.email ?? '',
+    );
 
     return BlocListener<ProfileCubit, ProfileState>(
-      listenWhen: (previous, current) => current.justSaved,
+      listenWhen: (previous, current) =>
+          current.outcome == ProfileOutcome.nameSaved,
       listener: (context, state) {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
@@ -86,6 +81,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Center(
+                          // Rebuilds as they type, so the initials update live.
                           child: ValueListenableBuilder(
                             valueListenable: _nameController,
                             builder: (context, value, _) => ProfileAvatar(
@@ -102,76 +98,34 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           hint: l10n.nameHint,
                           controller: _nameController,
                           keyboardType: TextInputType.name,
+                          textInputAction: TextInputAction.done,
+                          onSubmitted: (_) => _save(),
                           validator: (value) => (value?.trim().isEmpty ?? true)
                               ? l10n.nameRequired
                               : null,
                         ),
-                        const SizedBox(height: 24),
-                        AppTextField(
-                          label: l10n.email,
-                          hint: l10n.emailHint,
-                          controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) => _validateEmail(value, l10n),
-                        ),
-                        const SizedBox(height: 24),
-                        AppTextField(
-                          label: l10n.newPassword,
-                          hint: '••••••••••',
-                          controller: _passwordController,
-                          obscure: true,
-                          validator: (value) => _validatePassword(value, l10n),
-                        ),
                         const SizedBox(height: 8),
-                        // Explains an otherwise baffling requirement rather
-                        // than letting the server reject the save.
                         Text(
-                          l10n.passwordNeededToSave,
+                          l10n.nameStoredLocally,
                           style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.hint,
-                            height: 1.4,
                           ),
                         ),
-                        const SizedBox(height: 20),
-                        AppTextField(
-                          label: l10n.confirmNewPassword,
-                          hint: '••••••••••',
-                          controller: _confirmController,
-                          obscure: true,
-                          textInputAction: TextInputAction.done,
-                          onSubmitted: (_) => _save(),
-                          validator: (value) =>
-                              value != _passwordController.text
-                              ? l10n.passwordsDoNotMatch
-                              : null,
+                        const SizedBox(height: 24),
+                        // Shown, not editable: a field the user could type into
+                        // but never change would be worse than none at all.
+                        _ReadOnlyField(
+                          label: l10n.email,
+                          value: email,
+                          note: l10n.emailCannotChange,
                         ),
                         const SizedBox(height: 32),
                         BlocBuilder<ProfileCubit, ProfileState>(
-                          builder: (context, state) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                if (state.errorMessage != null) ...[
-                                  ErrorBanner(message: state.errorMessage!),
-                                  const SizedBox(height: 16),
-                                ],
-                                ElevatedButton(
-                                  onPressed: state.isSaving ? null : _save,
-                                  child: state.isSaving
-                                      ? const SizedBox(
-                                          height: 22,
-                                          width: 22,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                            color: AppColors.white,
-                                          ),
-                                        )
-                                      : Text(l10n.save),
-                                ),
-                              ],
-                            );
-                          },
+                          builder: (context, state) => ElevatedButton(
+                            onPressed: state.isBusy ? null : _save,
+                            child: Text(l10n.save),
+                          ),
                         ),
                       ],
                     ),
@@ -184,19 +138,53 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
   }
+}
 
-  String? _validateEmail(String? value, AppLocalizations l10n) {
-    final email = value?.trim() ?? '';
-    if (email.isEmpty) return l10n.emailRequired;
-    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email)) {
-      return l10n.emailInvalid;
-    }
-    return null;
-  }
+class _ReadOnlyField extends StatelessWidget {
+  final String label;
+  final String value;
+  final String note;
 
-  String? _validatePassword(String? value, AppLocalizations l10n) {
-    if (value == null || value.isEmpty) return l10n.passwordRequired;
-    if (value.length < 6) return l10n.passwordTooShort;
-    return null;
+  const _ReadOnlyField({
+    required this.label,
+    required this.value,
+    required this.note,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label.toUpperCase(),
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        const SizedBox(height: 10),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+          decoration: BoxDecoration(
+            color: AppColors.inputFill,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: AppColors.hint, fontSize: 14),
+                ),
+              ),
+              const Icon(Icons.lock_outline, size: 16, color: AppColors.hint),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(note, style: const TextStyle(fontSize: 12, color: AppColors.hint)),
+      ],
+    );
   }
 }

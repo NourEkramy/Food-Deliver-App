@@ -1,30 +1,33 @@
 import 'package:equatable/equatable.dart';
 
-class ProfileState extends Equatable {
-  final bool isSaving;
+/// What just finished, so the screen knows which message to show.
+enum ProfileOutcome { none, nameSaved, passwordChanged, accountDeleted }
 
-  /// Set once a save succeeds so the screen can confirm and pop, then cleared.
-  final bool justSaved;
+class ProfileState extends Equatable {
+  final bool isBusy;
+  final ProfileOutcome outcome;
   final String? errorMessage;
 
   const ProfileState({
-    this.isSaving = false,
-    this.justSaved = false,
+    this.isBusy = false,
+    this.outcome = ProfileOutcome.none,
     this.errorMessage,
   });
 
+  /// Outcome and error both reset unless explicitly passed: each describes one
+  /// completed attempt and should not leak into the next state.
   ProfileState copyWith({
-    bool? isSaving,
-    bool? justSaved,
+    bool? isBusy,
+    ProfileOutcome? outcome,
     String? errorMessage,
   }) {
     return ProfileState(
-      isSaving: isSaving ?? this.isSaving,
-      justSaved: justSaved ?? false,
+      isBusy: isBusy ?? this.isBusy,
+      outcome: outcome ?? ProfileOutcome.none,
       errorMessage: errorMessage,
     );
   }
 
   @override
-  List<Object?> get props => [isSaving, justSaved, errorMessage];
+  List<Object?> get props => [isBusy, outcome, errorMessage];
 }

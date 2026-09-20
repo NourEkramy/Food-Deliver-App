@@ -84,7 +84,15 @@
   "confirmNewPassword": "تأكيد كلمة المرور",
   "save": "حفظ",
   "profileUpdated": "تم تحديث الملف الشخصي",
-  "passwordNeededToSave": "يطلب الخادم كلمة مرور مع كل تعديل، لذا أدخل كلمة مرور للحفظ.",
   "nameStoredLocally": "محفوظ على هذا الجهاز فقط",
-  "accountSection": "الحساب"
+  "accountSection": "الحساب",
+  "changePassword": "تغيير كلمة المرور",
+  "changePasswordSubtitle": "اختر كلمة مرور جديدة لحسابك",
+  "passwordChanged": "تم تغيير كلمة المرور",
+  "emailCannotChange": "لا يمكن تغيير بريدك الإلكتروني لهذا الحساب",
+  "deleteAccount": "حذف الحساب",
+  "deleteAccountTitle": "حذف حسابك؟",
+  "deleteAccountBody": "سيؤدي هذا إلى حذف حسابك نهائياً وتسجيل خروجك. لا يمكن التراجع عن ذلك.",
+  "accountDeleted": "تم حذف الحساب",
+  "saveName": "حفظ"
 }

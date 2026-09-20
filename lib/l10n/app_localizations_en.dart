@@ -284,12 +284,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileUpdated => 'Profile updated';
 
   @override
-  String get passwordNeededToSave =>
-      'The server requires a password with every profile change, so enter one to save.';
-
-  @override
   String get nameStoredLocally => 'Saved on this device only';
 
   @override
   String get accountSection => 'ACCOUNT';
+
+  @override
+  String get changePassword => 'Change Password';
+
+  @override
+  String get changePasswordSubtitle => 'Choose a new password for your account';
+
+  @override
+  String get passwordChanged => 'Password changed';
+
+  @override
+  String get emailCannotChange =>
+      'Your email cannot be changed on this account';
+
+  @override
+  String get deleteAccount => 'Delete account';
+
+  @override
+  String get deleteAccountTitle => 'Delete your account?';
+
+  @override
+  String get deleteAccountBody =>
+      'This permanently deletes your account and you will be signed out. It cannot be undone.';
+
+  @override
+  String get accountDeleted => 'Account deleted';
+
+  @override
+  String get saveName => 'SAVE';
 }

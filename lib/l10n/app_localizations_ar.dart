@@ -291,12 +291,36 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileUpdated => 'تم تحديث الملف الشخصي';
 
   @override
-  String get passwordNeededToSave =>
-      'يطلب الخادم كلمة مرور مع كل تعديل، لذا أدخل كلمة مرور للحفظ.';
-
-  @override
   String get nameStoredLocally => 'محفوظ على هذا الجهاز فقط';
 
   @override
   String get accountSection => 'الحساب';
+
+  @override
+  String get changePassword => 'تغيير كلمة المرور';
+
+  @override
+  String get changePasswordSubtitle => 'اختر كلمة مرور جديدة لحسابك';
+
+  @override
+  String get passwordChanged => 'تم تغيير كلمة المرور';
+
+  @override
+  String get emailCannotChange => 'لا يمكن تغيير بريدك الإلكتروني لهذا الحساب';
+
+  @override
+  String get deleteAccount => 'حذف الحساب';
+
+  @override
+  String get deleteAccountTitle => 'حذف حسابك؟';
+
+  @override
+  String get deleteAccountBody =>
+      'سيؤدي هذا إلى حذف حسابك نهائياً وتسجيل خروجك. لا يمكن التراجع عن ذلك.';
+
+  @override
+  String get accountDeleted => 'تم حذف الحساب';
+
+  @override
+  String get saveName => 'حفظ';
 }
