@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/network/api_client.dart';
+import 'features/auth/cubit/auth_cubit.dart';
 import 'features/cart/view/cart_screen.dart';
 import 'features/orders/cubit/orders_cubit.dart';
 import 'features/orders/repository/order_repository.dart';
 import 'features/orders/view/orders_screen.dart';
+import 'features/profile/cubit/profile_cubit.dart';
+import 'features/profile/repository/profile_repository.dart';
+import 'features/profile/view/edit_profile_screen.dart';
+import 'features/profile/view/profile_screen.dart';
 import 'features/restaurant_detail/cubit/restaurant_detail_cubit.dart';
 import 'features/restaurant_detail/model/menu_item.dart';
 import 'features/restaurant_detail/repository/restaurant_detail_repository.dart';
@@ -63,6 +68,27 @@ class AppRoutes {
         builder: (_) => BlocProvider(
           create: (_) => OrdersCubit(OrderRepository(dio))..load(),
           child: const OrdersScreen(),
+        ),
+      ),
+    );
+  }
+
+  /// Reads everything from the session, so it needs no Cubit of its own.
+  static Future<void> openProfile(BuildContext context) {
+    return Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const ProfileScreen()));
+  }
+
+  static Future<void> openEditProfile(BuildContext context) {
+    final dio = context.read<ApiClient>().dio;
+    final auth = context.read<AuthCubit>();
+
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (_) => ProfileCubit(ProfileRepository(dio), auth),
+          child: const EditProfileScreen(),
         ),
       ),
     );

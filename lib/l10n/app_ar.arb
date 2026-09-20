@@ -75,5 +75,16 @@
   "addedToCart": "أُضيف إلى السلة",
   "viewCart": "عرض السلة",
   "confirm": "تأكيد",
-  "cancelAction": "إلغاء"
+  "cancelAction": "إلغاء",
+  "personalInfo": "المعلومات الشخصية",
+  "editProfile": "تعديل الملف الشخصي",
+  "edit": "تعديل",
+  "fullName": "الاسم الكامل",
+  "newPassword": "كلمة المرور الجديدة",
+  "confirmNewPassword": "تأكيد كلمة المرور",
+  "save": "حفظ",
+  "profileUpdated": "تم تحديث الملف الشخصي",
+  "passwordNeededToSave": "يطلب الخادم كلمة مرور مع كل تعديل، لذا أدخل كلمة مرور للحفظ.",
+  "nameStoredLocally": "محفوظ على هذا الجهاز فقط",
+  "accountSection": "الحساب"
 }

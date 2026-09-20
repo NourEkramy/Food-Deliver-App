@@ -553,6 +553,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancelAction;
+
+  /// No description provided for @personalInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Info'**
+  String get personalInfo;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'EDIT'**
+  String get edit;
+
+  /// No description provided for @fullName.
+  ///
+  /// In en, this message translates to:
+  /// **'FULL NAME'**
+  String get fullName;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW PASSWORD'**
+  String get newPassword;
+
+  /// No description provided for @confirmNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'CONFIRM PASSWORD'**
+  String get confirmNewPassword;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE'**
+  String get save;
+
+  /// No description provided for @profileUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated'**
+  String get profileUpdated;
+
+  /// No description provided for @passwordNeededToSave.
+  ///
+  /// In en, this message translates to:
+  /// **'The server requires a password with every profile change, so enter one to save.'**
+  String get passwordNeededToSave;
+
+  /// No description provided for @nameStoredLocally.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved on this device only'**
+  String get nameStoredLocally;
+
+  /// No description provided for @accountSection.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCOUNT'**
+  String get accountSection;
 }
 
 class _AppLocalizationsDelegate

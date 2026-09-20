@@ -258,4 +258,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancelAction => 'Cancel';
+
+  @override
+  String get personalInfo => 'Personal Info';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get edit => 'EDIT';
+
+  @override
+  String get fullName => 'FULL NAME';
+
+  @override
+  String get newPassword => 'NEW PASSWORD';
+
+  @override
+  String get confirmNewPassword => 'CONFIRM PASSWORD';
+
+  @override
+  String get save => 'SAVE';
+
+  @override
+  String get profileUpdated => 'Profile updated';
+
+  @override
+  String get passwordNeededToSave =>
+      'The server requires a password with every profile change, so enter one to save.';
+
+  @override
+  String get nameStoredLocally => 'Saved on this device only';
+
+  @override
+  String get accountSection => 'ACCOUNT';
 }

@@ -265,4 +265,38 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get cancelAction => 'إلغاء';
+
+  @override
+  String get personalInfo => 'المعلومات الشخصية';
+
+  @override
+  String get editProfile => 'تعديل الملف الشخصي';
+
+  @override
+  String get edit => 'تعديل';
+
+  @override
+  String get fullName => 'الاسم الكامل';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get confirmNewPassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get profileUpdated => 'تم تحديث الملف الشخصي';
+
+  @override
+  String get passwordNeededToSave =>
+      'يطلب الخادم كلمة مرور مع كل تعديل، لذا أدخل كلمة مرور للحفظ.';
+
+  @override
+  String get nameStoredLocally => 'محفوظ على هذا الجهاز فقط';
+
+  @override
+  String get accountSection => 'الحساب';
 }

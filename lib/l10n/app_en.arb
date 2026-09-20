@@ -119,5 +119,16 @@
   "addedToCart": "Added to cart",
   "viewCart": "View cart",
   "confirm": "Confirm",
-  "cancelAction": "Cancel"
+  "cancelAction": "Cancel",
+  "personalInfo": "Personal Info",
+  "editProfile": "Edit Profile",
+  "edit": "EDIT",
+  "fullName": "FULL NAME",
+  "newPassword": "NEW PASSWORD",
+  "confirmNewPassword": "CONFIRM PASSWORD",
+  "save": "SAVE",
+  "profileUpdated": "Profile updated",
+  "passwordNeededToSave": "The server requires a password with every profile change, so enter one to save.",
+  "nameStoredLocally": "Saved on this device only",
+  "accountSection": "ACCOUNT"
 }

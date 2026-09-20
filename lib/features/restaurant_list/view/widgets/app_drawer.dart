@@ -69,6 +69,17 @@ class AppDrawer extends StatelessWidget {
             ),
             const Divider(color: Colors.white12, height: 1),
             ListTile(
+              leading: const Icon(Icons.person_outline, color: AppColors.white),
+              title: Text(
+                l10n.personalInfo,
+                style: const TextStyle(color: AppColors.white, fontSize: 15),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                AppRoutes.openProfile(context);
+              },
+            ),
+            ListTile(
               leading: const Icon(
                 Icons.receipt_long_outlined,
                 color: AppColors.white,

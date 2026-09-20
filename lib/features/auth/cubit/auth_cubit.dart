@@ -72,6 +72,29 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  /// Applies a profile change to the live session, and to storage if the user
+  /// chose to be remembered.
+  ///
+  /// The API key is carried through unchanged: nothing in the update response
+  /// suggests a new one is issued. If the server does rotate it, the next
+  /// request fails with "Invalid API key" and signing in again fixes it.
+  Future<void> updateProfile({
+    required String name,
+    required String email,
+  }) async {
+    final apiKey = state.apiKey;
+    if (apiKey == null) return;
+
+    // Only re-persist if a session was stored in the first place — otherwise
+    // this would quietly turn "Remember me" on behind the user's back.
+    final stored = await storage.read();
+    if (stored != null) {
+      await storage.save(Session(apiKey: apiKey, email: email, name: name));
+    }
+
+    emit(state.copyWith(email: email, name: name));
+  }
+
   /// Drops the API key from memory *and* from storage, so a remembered session
   /// does not quietly sign the user back in on the next launch.
   Future<void> logout() async {
