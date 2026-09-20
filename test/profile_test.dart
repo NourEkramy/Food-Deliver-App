@@ -25,6 +25,14 @@ class RecordingAdapter implements HttpClientAdapter {
   final Object body;
   RequestOptions? last;
 
+  /// The bytes actually sent, decoded.
+  ///
+  /// [RequestOptions.data] is the value handed to Dio *before* its transformer
+  /// runs, so asserting on it cannot tell whether a String was JSON-encoded.
+  /// A test on that field passed while the wire carried `hunter2` instead of
+  /// `"hunter2"`, which the server rejected.
+  String? sentBody;
+
   RecordingAdapter({this.status = 200, this.body = const {}});
 
   @override
@@ -34,6 +42,10 @@ class RecordingAdapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     last = options;
+    if (requestStream != null) {
+      final chunks = await requestStream.toList();
+      sentBody = utf8.decode(chunks.expand((chunk) => chunk).toList());
+    }
     return ResponseBody.fromString(
       jsonEncode(body),
       status,
@@ -121,8 +133,31 @@ void main() {
 
       expect(adapter.last!.method, 'PUT');
       expect(adapter.last!.path, '/User/KEY-1');
-      expect(adapter.last!.data, 'secret123');
-      expect(adapter.last!.data, isNot(isA<Map>()));
+      // Quoted: a JSON string, which is what the server binds to
+      // `[FromBody] string`. Unquoted, it reads the leading digits of a
+      // numeric password as a number and fails on the first letter.
+      expect(adapter.sentBody, '"secret123"');
+    });
+
+    test('quotes a password that would otherwise parse as a number', () async {
+      final adapter = RecordingAdapter();
+
+      await repoWith(
+        adapter,
+      ).changePassword(apiKey: 'KEY-1', newPassword: '1234567Nour');
+
+      expect(adapter.sentBody, '"1234567Nour"');
+    });
+
+    test('escapes a quote that would otherwise break the JSON', () async {
+      final adapter = RecordingAdapter();
+
+      await repoWith(
+        adapter,
+      ).changePassword(apiKey: 'KEY-1', newPassword: 'pa"ss');
+
+      // Escaped rather than pasted in raw, so the body stays valid JSON.
+      expect(adapter.sentBody, r'"pa\"ss"');
     });
 
     test('sends no query parameters', () async {
@@ -404,7 +439,7 @@ void main() {
       await tester.tap(find.text('SAVE'));
       await tester.pumpAndSettle();
 
-      expect(adapter.last!.data, 'secret123');
+      expect(adapter.sentBody, '"secret123"');
     });
   });
 }

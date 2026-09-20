@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 
 /// Changes the signed-in user's password, or deletes their account.
@@ -22,12 +24,19 @@ class ProfileRepository {
 
   /// The API key identifies the user, so it goes in the path rather than being
   /// left to the interceptor to attach as a query parameter.
+  ///
+  /// [jsonEncode] is not decoration. Dio serialises a Map for you but sends a
+  /// String body verbatim, assuming you already encoded it — so passing the
+  /// password directly puts `hunter2` on the wire where the server expects
+  /// `"hunter2"`. A numeric-looking password then fails as
+  /// "'N' is an invalid end of a number", because the parser reads the digits
+  /// as a number and chokes on the first letter.
   Future<void> changePassword({
     required String apiKey,
     required String newPassword,
   }) async {
     try {
-      await dio.put('/User/$apiKey', data: newPassword);
+      await dio.put('/User/$apiKey', data: jsonEncode(newPassword));
     } on DioException catch (e) {
       throw Exception(
         _readableError(e, fallback: 'Could not change your password'),
