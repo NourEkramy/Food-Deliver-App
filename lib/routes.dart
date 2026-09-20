@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/network/api_client.dart';
+import 'features/address/view/add_address_screen.dart';
+import 'features/address/view/address_screen.dart';
 import 'features/auth/cubit/auth_cubit.dart';
+import 'features/auth/view/forgot_password_screen.dart';
+import 'features/payment/view/add_card_screen.dart';
+import 'features/payment/view/payment_screen.dart';
+import 'features/payment/view/payment_success_screen.dart';
 import 'features/cart/view/cart_screen.dart';
 import 'features/orders/cubit/orders_cubit.dart';
 import 'features/orders/repository/order_repository.dart';
@@ -117,6 +123,49 @@ class AppRoutes {
         ),
       ),
     );
+  }
+
+  /// Addresses and payment methods read app-wide Cubits, so these push plain
+  /// screens — no provider wiring needed.
+  static Future<void> openAddresses(
+    BuildContext context, {
+    bool selecting = false,
+  }) {
+    return Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => AddressScreen(selecting: selecting)),
+    );
+  }
+
+  static Future<void> openAddAddress(BuildContext context) {
+    return Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const AddAddressScreen()));
+  }
+
+  static Future<void> openPayment(BuildContext context) {
+    return Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const PaymentScreen()));
+  }
+
+  static Future<void> openAddCard(BuildContext context) {
+    return Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const AddCardScreen()));
+  }
+
+  /// Replaces the payment screen: the order is placed, so going "back" to pay
+  /// again would make no sense.
+  static Future<void> openPaymentSuccess(BuildContext context) {
+    return Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => const PaymentSuccessScreen()),
+    );
+  }
+
+  static Future<void> openForgotPassword(BuildContext context) {
+    return Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const ForgotPasswordScreen()));
   }
 
   static Future<void> openSearch(BuildContext context) {

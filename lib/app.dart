@@ -8,8 +8,10 @@ import 'core/theme/app_theme.dart';
 import 'features/auth/cubit/auth_cubit.dart';
 import 'features/auth/cubit/auth_state.dart';
 import 'features/auth/repository/auth_repository.dart';
-import 'features/auth/view/auth_gate.dart';
+import 'features/onboarding/view/startup_gate.dart';
+import 'features/address/cubit/address_cubit.dart';
 import 'features/cart/cubit/cart_cubit.dart';
+import 'features/payment/cubit/payment_cubit.dart';
 import 'features/orders/repository/order_repository.dart';
 import 'l10n/app_localizations.dart';
 
@@ -24,6 +26,8 @@ class _MyAppState extends State<MyApp> {
   late final AuthCubit _auth;
   late final ApiClient _apiClient;
   late final CartCubit _cart;
+  late final AddressCubit _addresses;
+  late final PaymentCubit _payments;
 
   @override
   void initState() {
@@ -40,10 +44,17 @@ class _MyAppState extends State<MyApp> {
     );
     _apiClient = ApiClient(_auth);
     _cart = CartCubit(OrderRepository(_apiClient.dio));
+
+    // Addresses and cards are device-local and read from several screens, so
+    // they are created once here like the cart.
+    _addresses = AddressCubit()..load();
+    _payments = PaymentCubit()..load();
   }
 
   @override
   void dispose() {
+    _payments.close();
+    _addresses.close();
     _cart.close();
     _auth.close();
     super.dispose();
@@ -57,6 +68,8 @@ class _MyAppState extends State<MyApp> {
         // App-wide: the cart is reachable from the home header, the restaurant
         // screen and the item screen, and must survive navigation between them.
         BlocProvider.value(value: _cart),
+        BlocProvider.value(value: _addresses),
+        BlocProvider.value(value: _payments),
       ],
       child: BlocListener<AuthCubit, AuthState>(
         // Signing out must not leave the next user holding someone else's cart.
@@ -78,9 +91,9 @@ class _MyAppState extends State<MyApp> {
 
             onGenerateTitle: (context) => AppLocalizations.of(context).appName,
 
-            // AuthGate decides between the login screen and the app itself,
-            // once it has checked storage for a remembered session.
-            home: const AuthGate(),
+            // StartupGate shows onboarding on a first run, then hands over to
+            // AuthGate, which decides between login and the app itself.
+            home: const StartupGate(),
           ),
         ),
       ),

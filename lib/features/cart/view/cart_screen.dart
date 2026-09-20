@@ -8,6 +8,8 @@ import '../../../core/widgets/error_banner.dart';
 import '../../../core/widgets/quantity_stepper.dart';
 import '../../../core/widgets/screen_header.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../routes.dart';
+import '../../address/cubit/address_cubit.dart';
 import '../cubit/cart_cubit.dart';
 import '../cubit/cart_state.dart';
 import '../model/cart_item.dart';
@@ -21,14 +23,10 @@ class CartScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.dark,
-      body: BlocConsumer<CartCubit, CartState>(
-        listenWhen: (previous, current) => current.justPlacedOrder,
-        listener: (context, state) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(content: Text(l10n.orderPlaced)));
-          Navigator.of(context).maybePop();
-        },
+      // A plain builder, not a consumer. The order is placed on the payment
+      // screen now, which sits above this one and handles the success itself —
+      // a listener here would pop that screen the moment it appeared.
+      body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
           return SafeArea(
             child: Column(
@@ -220,19 +218,53 @@ class _Checkout extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          // Shown but not editable: there is no address endpoint, so offering
-          // an edit control would imply a feature that does not exist.
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-            decoration: BoxDecoration(
-              color: AppColors.inputFill,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              l10n.setDeliveryAddress,
-              style: const TextStyle(color: AppColors.hint, fontSize: 14),
-            ),
+          // Tapping opens the saved addresses. They are device-local — the API
+          // takes no address with an order — so this changes what the app
+          // shows, not what is sent.
+          BlocBuilder<AddressCubit, AddressState>(
+            builder: (context, addressState) {
+              final address = addressState.selected;
+
+              return Material(
+                color: AppColors.inputFill,
+                borderRadius: BorderRadius.circular(10),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () =>
+                      AppRoutes.openAddresses(context, selecting: true),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 16,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            address?.summary ?? l10n.setDeliveryAddress,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: address == null
+                                  ? AppColors.hint
+                                  : AppColors.textPrimary,
+                              fontSize: 14,
+                              height: 1.4,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Icon(
+                          Icons.chevron_right,
+                          size: 20,
+                          color: AppColors.hint,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
           const SizedBox(height: 20),
           Row(
@@ -268,19 +300,10 @@ class _Checkout extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: state.isPlacing
-                  ? null
-                  : context.read<CartCubit>().placeOrder,
-              child: state.isPlacing
-                  ? const SizedBox(
-                      height: 22,
-                      width: 22,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: AppColors.white,
-                      ),
-                    )
-                  : Text(l10n.placeOrder),
+              // Goes to payment rather than ordering straight away: the order
+              // is placed there, once a method is chosen.
+              onPressed: () => AppRoutes.openPayment(context),
+              child: Text(l10n.placeOrder),
             ),
           ),
         ],

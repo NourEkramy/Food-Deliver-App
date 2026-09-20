@@ -81,6 +81,31 @@ class AppDrawer extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(
+                Icons.location_on_outlined,
+                color: AppColors.white,
+              ),
+              title: Text(
+                l10n.myAddresses,
+                style: const TextStyle(color: AppColors.white, fontSize: 15),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                AppRoutes.openAddresses(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.credit_card, color: AppColors.white),
+              title: Text(
+                l10n.payment,
+                style: const TextStyle(color: AppColors.white, fontSize: 15),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                AppRoutes.openPayment(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(
                 Icons.receipt_long_outlined,
                 color: AppColors.white,
               ),

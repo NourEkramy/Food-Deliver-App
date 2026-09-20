@@ -332,4 +332,159 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get orderNotFound => 'تعذّر العثور على هذا الطلب';
+
+  @override
+  String get onbTitle1 => 'كل ما تحب';
+
+  @override
+  String get onbBody1 => 'اطلب من أفضل المطاعم القريبة مع توصيل سريع وسهل.';
+
+  @override
+  String get onbTitle2 => 'عروض توصيل مجاني';
+
+  @override
+  String get onbBody2 => 'توصيل مجاني للعملاء الجدد عبر وسائل دفع متعددة.';
+
+  @override
+  String get onbTitle3 => 'اختر طعامك';
+
+  @override
+  String get onbBody3 => 'اعثر بسهولة على ما تشتهيه واحصل عليه أينما كنت.';
+
+  @override
+  String get next => 'التالي';
+
+  @override
+  String get skip => 'تخطي';
+
+  @override
+  String get getStarted => 'ابدأ الآن';
+
+  @override
+  String get myAddresses => 'عناويني';
+
+  @override
+  String get addNewAddress => 'إضافة عنوان';
+
+  @override
+  String get addressLine => 'العنوان';
+
+  @override
+  String get street => 'الشارع';
+
+  @override
+  String get postCode => 'الرمز البريدي';
+
+  @override
+  String get apartment => 'الشقة';
+
+  @override
+  String get labelAs => 'تصنيف';
+
+  @override
+  String get labelHome => 'المنزل';
+
+  @override
+  String get labelWork => 'العمل';
+
+  @override
+  String get labelOther => 'أخرى';
+
+  @override
+  String get saveLocation => 'حفظ العنوان';
+
+  @override
+  String get noAddresses => 'لا توجد عناوين محفوظة';
+
+  @override
+  String get addressRequired => 'الرجاء إدخال العنوان';
+
+  @override
+  String get addressSaved => 'تم حفظ العنوان';
+
+  @override
+  String get addressDeleted => 'تم حذف العنوان';
+
+  @override
+  String get chooseAddress => 'اختر عنواناً';
+
+  @override
+  String get payment => 'الدفع';
+
+  @override
+  String get paymentCash => 'نقداً';
+
+  @override
+  String get paymentCard => 'بطاقة';
+
+  @override
+  String get addNewCard => 'إضافة';
+
+  @override
+  String get addCard => 'إضافة بطاقة';
+
+  @override
+  String get cardHolder => 'اسم حامل البطاقة';
+
+  @override
+  String get cardNumber => 'رقم البطاقة';
+
+  @override
+  String get expiry => 'تاريخ الانتهاء';
+
+  @override
+  String get cvc => 'الرمز السري';
+
+  @override
+  String get addAndPay => 'إضافة وإتمام الدفع';
+
+  @override
+  String get payAndConfirm => 'ادفع وأكّد';
+
+  @override
+  String get cardRequired => 'الرجاء إدخال رقم البطاقة';
+
+  @override
+  String get cardInvalid => 'رقم البطاقة يجب أن يكون ١٦ رقماً';
+
+  @override
+  String get expiryRequired => 'شهر/سنة';
+
+  @override
+  String get cvcRequired => '٣ أرقام';
+
+  @override
+  String get holderRequired => 'الرجاء إدخال اسم حامل البطاقة';
+
+  @override
+  String get noCards => 'لا توجد بطاقات محفوظة';
+
+  @override
+  String get paymentSuccessTitle => 'تهانينا!';
+
+  @override
+  String get paymentSuccessBody => 'تم الدفع بنجاح، نتمنى لك تجربة ممتعة!';
+
+  @override
+  String get trackOrder => 'تتبع الطلب';
+
+  @override
+  String get backToHome => 'العودة للرئيسية';
+
+  @override
+  String get cardsAreLocal =>
+      'تُحفظ البطاقات على هذا الجهاز فقط. لا تُدخل رقم بطاقة حقيقية.';
+
+  @override
+  String get forgotPasswordTitle => 'نسيت كلمة المرور';
+
+  @override
+  String get forgotPasswordSubtitle => 'الرجاء تسجيل الدخول إلى حسابك';
+
+  @override
+  String get sendCode => 'إرسال الرمز';
+
+  @override
+  String get forgotPasswordUnavailable =>
+      'لا يوفر هذا الخادم التجريبي خدمة استعادة كلمة المرور، لذا لن يُرسل أي بريد.';
 }

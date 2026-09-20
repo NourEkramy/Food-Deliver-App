@@ -326,4 +326,164 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get orderNotFound => 'That order could not be found';
+
+  @override
+  String get onbTitle1 => 'All your favorites';
+
+  @override
+  String get onbBody1 =>
+      'Order from the best local restaurants with easy, on-demand delivery.';
+
+  @override
+  String get onbTitle2 => 'Free delivery offers';
+
+  @override
+  String get onbBody2 =>
+      'Free delivery for new customers via Apple Pay and others payment methods.';
+
+  @override
+  String get onbTitle3 => 'Choose your food';
+
+  @override
+  String get onbBody3 =>
+      'Easily find your type of food craving and you\'ll get delivery in wide range.';
+
+  @override
+  String get next => 'NEXT';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get getStarted => 'GET STARTED';
+
+  @override
+  String get myAddresses => 'My Addresses';
+
+  @override
+  String get addNewAddress => 'Add New Address';
+
+  @override
+  String get addressLine => 'ADDRESS';
+
+  @override
+  String get street => 'STREET';
+
+  @override
+  String get postCode => 'POST CODE';
+
+  @override
+  String get apartment => 'APARTMENT';
+
+  @override
+  String get labelAs => 'LABEL AS';
+
+  @override
+  String get labelHome => 'Home';
+
+  @override
+  String get labelWork => 'Work';
+
+  @override
+  String get labelOther => 'Other';
+
+  @override
+  String get saveLocation => 'SAVE LOCATION';
+
+  @override
+  String get noAddresses => 'No saved addresses yet';
+
+  @override
+  String get addressRequired => 'Please enter an address';
+
+  @override
+  String get addressSaved => 'Address saved';
+
+  @override
+  String get addressDeleted => 'Address removed';
+
+  @override
+  String get chooseAddress => 'Choose an address';
+
+  @override
+  String get payment => 'Payment';
+
+  @override
+  String get paymentCash => 'Cash';
+
+  @override
+  String get paymentCard => 'Card';
+
+  @override
+  String get addNewCard => 'ADD NEW';
+
+  @override
+  String get addCard => 'Add Card';
+
+  @override
+  String get cardHolder => 'CARD HOLDER NAME';
+
+  @override
+  String get cardNumber => 'CARD NUMBER';
+
+  @override
+  String get expiry => 'EXPIRY DATE';
+
+  @override
+  String get cvc => 'CVC';
+
+  @override
+  String get addAndPay => 'ADD & MAKE PAYMENT';
+
+  @override
+  String get payAndConfirm => 'PAY & CONFIRM';
+
+  @override
+  String get cardRequired => 'Please enter a card number';
+
+  @override
+  String get cardInvalid => 'Card number must be 16 digits';
+
+  @override
+  String get expiryRequired => 'MM/YY';
+
+  @override
+  String get cvcRequired => '3 digits';
+
+  @override
+  String get holderRequired => 'Please enter the cardholder name';
+
+  @override
+  String get noCards => 'No saved cards';
+
+  @override
+  String get paymentSuccessTitle => 'Congratulations!';
+
+  @override
+  String get paymentSuccessBody =>
+      'You successfully made a payment, enjoy our service!';
+
+  @override
+  String get trackOrder => 'TRACK ORDER';
+
+  @override
+  String get backToHome => 'BACK TO HOME';
+
+  @override
+  String get cardsAreLocal =>
+      'Cards are stored on this device only. Never enter a real card number.';
+
+  @override
+  String get forgotPasswordTitle => 'Forgot Password';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Please sign in to your existing account';
+
+  @override
+  String get sendCode => 'SEND CODE';
+
+  @override
+  String get forgotPasswordUnavailable =>
+      'This demo backend has no password reset endpoint, so no email will be sent.';
 }

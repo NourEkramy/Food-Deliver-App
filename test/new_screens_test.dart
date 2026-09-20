@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:food_delivery/core/theme/app_theme.dart';
+import 'package:food_delivery/features/address/cubit/address_cubit.dart';
 import 'package:food_delivery/features/cart/cubit/cart_cubit.dart';
 import 'package:food_delivery/features/cart/view/cart_screen.dart';
 import 'package:food_delivery/features/orders/cubit/orders_cubit.dart';
@@ -76,8 +77,12 @@ Future<CartCubit> pumpScreen(
   final cartCubit = cart ?? CartCubit(FakeOrderRepository());
 
   await tester.pumpWidget(
-    BlocProvider.value(
-      value: cartCubit,
+    MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: cartCubit),
+        // The cart shows the chosen delivery address.
+        BlocProvider(create: (_) => AddressCubit()),
+      ],
       child: MaterialApp(
         locale: locale,
         theme: AppTheme.light,

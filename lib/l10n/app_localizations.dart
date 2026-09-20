@@ -685,6 +685,312 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'That order could not be found'**
   String get orderNotFound;
+
+  /// No description provided for @onbTitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'All your favorites'**
+  String get onbTitle1;
+
+  /// No description provided for @onbBody1.
+  ///
+  /// In en, this message translates to:
+  /// **'Order from the best local restaurants with easy, on-demand delivery.'**
+  String get onbBody1;
+
+  /// No description provided for @onbTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Free delivery offers'**
+  String get onbTitle2;
+
+  /// No description provided for @onbBody2.
+  ///
+  /// In en, this message translates to:
+  /// **'Free delivery for new customers via Apple Pay and others payment methods.'**
+  String get onbBody2;
+
+  /// No description provided for @onbTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your food'**
+  String get onbTitle3;
+
+  /// No description provided for @onbBody3.
+  ///
+  /// In en, this message translates to:
+  /// **'Easily find your type of food craving and you\'ll get delivery in wide range.'**
+  String get onbBody3;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'NEXT'**
+  String get next;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'GET STARTED'**
+  String get getStarted;
+
+  /// No description provided for @myAddresses.
+  ///
+  /// In en, this message translates to:
+  /// **'My Addresses'**
+  String get myAddresses;
+
+  /// No description provided for @addNewAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Address'**
+  String get addNewAddress;
+
+  /// No description provided for @addressLine.
+  ///
+  /// In en, this message translates to:
+  /// **'ADDRESS'**
+  String get addressLine;
+
+  /// No description provided for @street.
+  ///
+  /// In en, this message translates to:
+  /// **'STREET'**
+  String get street;
+
+  /// No description provided for @postCode.
+  ///
+  /// In en, this message translates to:
+  /// **'POST CODE'**
+  String get postCode;
+
+  /// No description provided for @apartment.
+  ///
+  /// In en, this message translates to:
+  /// **'APARTMENT'**
+  String get apartment;
+
+  /// No description provided for @labelAs.
+  ///
+  /// In en, this message translates to:
+  /// **'LABEL AS'**
+  String get labelAs;
+
+  /// No description provided for @labelHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get labelHome;
+
+  /// No description provided for @labelWork.
+  ///
+  /// In en, this message translates to:
+  /// **'Work'**
+  String get labelWork;
+
+  /// No description provided for @labelOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get labelOther;
+
+  /// No description provided for @saveLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE LOCATION'**
+  String get saveLocation;
+
+  /// No description provided for @noAddresses.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved addresses yet'**
+  String get noAddresses;
+
+  /// No description provided for @addressRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter an address'**
+  String get addressRequired;
+
+  /// No description provided for @addressSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Address saved'**
+  String get addressSaved;
+
+  /// No description provided for @addressDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Address removed'**
+  String get addressDeleted;
+
+  /// No description provided for @chooseAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an address'**
+  String get chooseAddress;
+
+  /// No description provided for @payment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment'**
+  String get payment;
+
+  /// No description provided for @paymentCash.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get paymentCash;
+
+  /// No description provided for @paymentCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Card'**
+  String get paymentCard;
+
+  /// No description provided for @addNewCard.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD NEW'**
+  String get addNewCard;
+
+  /// No description provided for @addCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Card'**
+  String get addCard;
+
+  /// No description provided for @cardHolder.
+  ///
+  /// In en, this message translates to:
+  /// **'CARD HOLDER NAME'**
+  String get cardHolder;
+
+  /// No description provided for @cardNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'CARD NUMBER'**
+  String get cardNumber;
+
+  /// No description provided for @expiry.
+  ///
+  /// In en, this message translates to:
+  /// **'EXPIRY DATE'**
+  String get expiry;
+
+  /// No description provided for @cvc.
+  ///
+  /// In en, this message translates to:
+  /// **'CVC'**
+  String get cvc;
+
+  /// No description provided for @addAndPay.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD & MAKE PAYMENT'**
+  String get addAndPay;
+
+  /// No description provided for @payAndConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'PAY & CONFIRM'**
+  String get payAndConfirm;
+
+  /// No description provided for @cardRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a card number'**
+  String get cardRequired;
+
+  /// No description provided for @cardInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Card number must be 16 digits'**
+  String get cardInvalid;
+
+  /// No description provided for @expiryRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'MM/YY'**
+  String get expiryRequired;
+
+  /// No description provided for @cvcRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'3 digits'**
+  String get cvcRequired;
+
+  /// No description provided for @holderRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the cardholder name'**
+  String get holderRequired;
+
+  /// No description provided for @noCards.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved cards'**
+  String get noCards;
+
+  /// No description provided for @paymentSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations!'**
+  String get paymentSuccessTitle;
+
+  /// No description provided for @paymentSuccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You successfully made a payment, enjoy our service!'**
+  String get paymentSuccessBody;
+
+  /// No description provided for @trackOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'TRACK ORDER'**
+  String get trackOrder;
+
+  /// No description provided for @backToHome.
+  ///
+  /// In en, this message translates to:
+  /// **'BACK TO HOME'**
+  String get backToHome;
+
+  /// No description provided for @cardsAreLocal.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards are stored on this device only. Never enter a real card number.'**
+  String get cardsAreLocal;
+
+  /// No description provided for @forgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password'**
+  String get forgotPasswordTitle;
+
+  /// No description provided for @forgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to your existing account'**
+  String get forgotPasswordSubtitle;
+
+  /// No description provided for @sendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'SEND CODE'**
+  String get sendCode;
+
+  /// No description provided for @forgotPasswordUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This demo backend has no password reset endpoint, so no email will be sent.'**
+  String get forgotPasswordUnavailable;
 }
 
 class _AppLocalizationsDelegate

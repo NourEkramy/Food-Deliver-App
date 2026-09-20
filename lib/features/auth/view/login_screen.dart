@@ -5,6 +5,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/error_banner.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../routes.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 import 'register_screen.dart';
@@ -218,11 +219,7 @@ class _RememberRow extends StatelessWidget {
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-            onPressed: () {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(l10n.forgotPassword)));
-            },
+            onPressed: () => AppRoutes.openForgotPassword(context),
             child: Text(l10n.forgotPassword, overflow: TextOverflow.ellipsis),
           ),
         ),

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/network/api_client.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../restaurant_list/cubit/restaurant_cubit.dart';
 import '../../restaurant_list/repository/restaurant_repository.dart';
 import '../../restaurant_list/view/restaurant_list_screen.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
+import '../../onboarding/view/splash_screen.dart';
 import 'login_screen.dart';
 
 /// Decides what the app shows at launch, and swaps it whenever auth changes.
@@ -38,7 +38,7 @@ class _AuthGateState extends State<AuthGate> {
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return switch (state.status) {
-          AuthStatus.unknown => const _SplashLoader(),
+          AuthStatus.unknown => const SplashScreen(),
           AuthStatus.signedOut => const LoginScreen(),
           AuthStatus.signedIn => BlocProvider(
             create: (context) => RestaurantCubit(
@@ -48,19 +48,6 @@ class _AuthGateState extends State<AuthGate> {
           ),
         };
       },
-    );
-  }
-}
-
-/// Shown for the moment it takes to read the saved session from the Keystore.
-class _SplashLoader extends StatelessWidget {
-  const _SplashLoader();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppColors.dark,
-      body: Center(child: CircularProgressIndicator(color: AppColors.primary)),
     );
   }
 }
