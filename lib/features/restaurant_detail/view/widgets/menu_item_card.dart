@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/widgets/app_network_image.dart';
+
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/util/money.dart';
 import '../../model/menu_item.dart';
@@ -43,7 +45,10 @@ class MenuItemCard extends StatelessWidget {
                     Positioned.fill(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(14),
-                        child: _Thumbnail(url: item.imageUrl),
+                        child: AppNetworkImage(
+                          url: item.imageUrl,
+                          fallbackIconSize: 28,
+                        ),
                       ),
                     ),
                     if (inCart > 0)
@@ -130,40 +135,6 @@ class MenuItemCard extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _Thumbnail extends StatelessWidget {
-  final String? url;
-
-  const _Thumbnail({required this.url});
-
-  @override
-  Widget build(BuildContext context) {
-    if (url == null) return const _ThumbnailFallback();
-
-    return Image.network(
-      url!,
-      fit: BoxFit.cover,
-      loadingBuilder: (context, child, progress) => progress == null
-          ? child
-          : const ColoredBox(color: AppColors.surfaceGrey),
-      errorBuilder: (context, error, stack) => const _ThumbnailFallback(),
-    );
-  }
-}
-
-class _ThumbnailFallback extends StatelessWidget {
-  const _ThumbnailFallback();
-
-  @override
-  Widget build(BuildContext context) {
-    return const ColoredBox(
-      color: AppColors.surfaceGrey,
-      child: Center(
-        child: Icon(Icons.restaurant, color: AppColors.hint, size: 28),
       ),
     );
   }

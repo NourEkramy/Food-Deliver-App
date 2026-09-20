@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/app_network_image.dart';
 import '../../../core/util/money.dart';
 import '../../../core/widgets/error_banner.dart';
 import '../../../core/widgets/quantity_stepper.dart';
@@ -122,14 +123,10 @@ class _CartLine extends StatelessWidget {
             child: SizedBox(
               height: 100,
               width: 100,
-              child: line.item.imageUrl == null
-                  ? const ColoredBox(color: Colors.white10)
-                  : Image.network(
-                      line.item.imageUrl!,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) =>
-                          const ColoredBox(color: Colors.white10),
-                    ),
+              child: AppNetworkImage(
+                url: line.item.imageUrl,
+                fallbackIconSize: 28,
+              ),
             ),
           ),
           const SizedBox(width: 16),

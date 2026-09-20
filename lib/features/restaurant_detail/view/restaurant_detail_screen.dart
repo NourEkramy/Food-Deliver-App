@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../core/widgets/app_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -92,7 +94,9 @@ class _Body extends StatelessWidget {
 
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(child: _Hero(url: heroUrl)),
+        SliverToBoxAdapter(
+          child: AppNetworkImage(url: heroUrl, fallbackIconSize: 40),
+        ),
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
@@ -193,51 +197,6 @@ class _MenuTile extends StatelessWidget {
       inCart: inCart,
       onTap: () => AppRoutes.openFoodDetails(context, item),
       onAdd: () => addToCart(context, item),
-    );
-  }
-}
-
-class _Hero extends StatelessWidget {
-  final String? url;
-
-  const _Hero({required this.url});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: SizedBox(
-          height: 190,
-          width: double.infinity,
-          child: url == null
-              ? const _HeroFallback()
-              : Image.network(
-                  url!,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, progress) => progress == null
-                      ? child
-                      : const ColoredBox(color: AppColors.surfaceGrey),
-                  errorBuilder: (context, error, stack) =>
-                      const _HeroFallback(),
-                ),
-        ),
-      ),
-    );
-  }
-}
-
-class _HeroFallback extends StatelessWidget {
-  const _HeroFallback();
-
-  @override
-  Widget build(BuildContext context) {
-    return const ColoredBox(
-      color: AppColors.surfaceGrey,
-      child: Center(
-        child: Icon(Icons.restaurant, size: 40, color: AppColors.hint),
-      ),
     );
   }
 }

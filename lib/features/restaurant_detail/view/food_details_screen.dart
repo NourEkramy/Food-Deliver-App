@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/widgets/app_network_image.dart';
+
 import '../../../core/theme/app_colors.dart';
 import '../../../core/util/money.dart';
 import '../../../core/widgets/cart_badge_button.dart';
@@ -53,7 +55,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _Photo(url: item.imageUrl),
+                    AppNetworkImage(url: item.imageUrl, fallbackIconSize: 44),
                     const SizedBox(height: 20),
                     // The restaurant chip from the design — this one is real.
                     Container(
@@ -123,47 +125,6 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _Photo extends StatelessWidget {
-  final String? url;
-
-  const _Photo({required this.url});
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: SizedBox(
-        height: 220,
-        width: double.infinity,
-        child: url == null
-            ? const _PhotoFallback()
-            : Image.network(
-                url!,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, progress) => progress == null
-                    ? child
-                    : const ColoredBox(color: AppColors.surfaceGrey),
-                errorBuilder: (context, error, stack) => const _PhotoFallback(),
-              ),
-      ),
-    );
-  }
-}
-
-class _PhotoFallback extends StatelessWidget {
-  const _PhotoFallback();
-
-  @override
-  Widget build(BuildContext context) {
-    return const ColoredBox(
-      color: AppColors.surfaceGrey,
-      child: Center(
-        child: Icon(Icons.restaurant, size: 44, color: AppColors.hint),
       ),
     );
   }

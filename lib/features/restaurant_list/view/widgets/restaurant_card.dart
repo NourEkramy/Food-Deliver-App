@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/widgets/app_network_image.dart';
+
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -32,7 +34,7 @@ class RestaurantCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _Photo(url: restaurant.imageUrl),
+            AppNetworkImage(url: restaurant.imageUrl, fallbackIconSize: 40),
             const SizedBox(height: 12),
             Text(
               restaurant.restaurantName,
@@ -83,58 +85,7 @@ class RestaurantCard extends StatelessWidget {
   }
 }
 
-class _Photo extends StatelessWidget {
-  final String? url;
-
-  const _Photo({required this.url});
-
-  static const double _height = 180;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: SizedBox(
-        height: _height,
-        width: double.infinity,
-        child: url == null
-            ? const _PhotoFallback()
-            : Image.network(
-                url!,
-                fit: BoxFit.cover,
-                // A grey block while the photo arrives, so the list does not
-                // jump as images pop in.
-                loadingBuilder: (context, child, progress) =>
-                    progress == null ? child : const _PhotoPlaceholder(),
-                errorBuilder: (context, error, stack) => const _PhotoFallback(),
-              ),
-      ),
-    );
-  }
-}
-
-class _PhotoPlaceholder extends StatelessWidget {
-  const _PhotoPlaceholder();
-
-  @override
-  Widget build(BuildContext context) =>
-      const ColoredBox(color: AppColors.surfaceGrey);
-}
-
 /// Shown when a restaurant has no photo, or the network fetch failed.
-class _PhotoFallback extends StatelessWidget {
-  const _PhotoFallback();
-
-  @override
-  Widget build(BuildContext context) {
-    return const ColoredBox(
-      color: AppColors.surfaceGrey,
-      child: Center(
-        child: Icon(Icons.restaurant, size: 40, color: AppColors.hint),
-      ),
-    );
-  }
-}
 
 class _Fact extends StatelessWidget {
   final IconData icon;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/app_network_image.dart';
 import '../../../core/util/money.dart';
 import '../../../core/widgets/cart_badge_button.dart';
 import '../../../core/widgets/screen_header.dart';
@@ -238,21 +239,7 @@ class _DishRow extends StatelessWidget {
         child: SizedBox(
           height: 48,
           width: 48,
-          child: item.imageUrl == null
-              ? const ColoredBox(
-                  color: AppColors.surfaceGrey,
-                  child: Icon(
-                    Icons.restaurant,
-                    size: 20,
-                    color: AppColors.hint,
-                  ),
-                )
-              : Image.network(
-                  item.imageUrl!,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) =>
-                      const ColoredBox(color: AppColors.surfaceGrey),
-                ),
+          child: AppNetworkImage(url: item.imageUrl, fallbackIconSize: 20),
         ),
       ),
       title: Text(
