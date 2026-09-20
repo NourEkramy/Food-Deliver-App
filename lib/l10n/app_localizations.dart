@@ -991,6 +991,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This demo backend has no password reset endpoint, so no email will be sent.'**
   String get forgotPasswordUnavailable;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @languageSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get languageSystem;
+
+  /// No description provided for @languageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// No description provided for @languageArabic.
+  ///
+  /// In en, this message translates to:
+  /// **'العربية'**
+  String get languageArabic;
 }
 
 class _AppLocalizationsDelegate

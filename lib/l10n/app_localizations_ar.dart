@@ -487,4 +487,16 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get forgotPasswordUnavailable =>
       'لا يوفر هذا الخادم التجريبي خدمة استعادة كلمة المرور، لذا لن يُرسل أي بريد.';
+
+  @override
+  String get language => 'اللغة';
+
+  @override
+  String get languageSystem => 'لغة النظام';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get languageArabic => 'العربية';
 }

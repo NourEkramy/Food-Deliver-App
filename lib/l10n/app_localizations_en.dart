@@ -486,4 +486,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get forgotPasswordUnavailable =>
       'This demo backend has no password reset endpoint, so no email will be sent.';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get languageSystem => 'System default';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get languageArabic => 'العربية';
 }

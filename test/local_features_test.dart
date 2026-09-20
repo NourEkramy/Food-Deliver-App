@@ -29,6 +29,18 @@ class FakeLocalStore implements LocalStore {
       data[key] = value;
 
   @override
+  Future<String?> readString(String key) async => data[key] as String?;
+
+  @override
+  Future<void> writeString(String key, String? value) async {
+    if (value == null) {
+      data.remove(key);
+    } else {
+      data[key] = value;
+    }
+  }
+
+  @override
   Future<List<Map<String, dynamic>>> readList(String key) async =>
       (data[key] as List<Map<String, dynamic>>?) ?? const [];
 

@@ -192,5 +192,9 @@
   "forgotPasswordTitle": "Forgot Password",
   "forgotPasswordSubtitle": "Please sign in to your existing account",
   "sendCode": "SEND CODE",
-  "forgotPasswordUnavailable": "This demo backend has no password reset endpoint, so no email will be sent."
+  "forgotPasswordUnavailable": "This demo backend has no password reset endpoint, so no email will be sent.",
+  "language": "Language",
+  "languageSystem": "System default",
+  "languageEnglish": "English",
+  "languageArabic": "العربية"
 }

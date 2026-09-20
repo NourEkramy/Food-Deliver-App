@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'core/locale/locale_cubit.dart';
 import 'core/network/api_client.dart';
 import 'core/network/api_config.dart';
 import 'core/storage/session_storage.dart';
@@ -28,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   late final CartCubit _cart;
   late final AddressCubit _addresses;
   late final PaymentCubit _payments;
+  late final LocaleCubit _locale;
 
   @override
   void initState() {
@@ -49,10 +50,12 @@ class _MyAppState extends State<MyApp> {
     // they are created once here like the cart.
     _addresses = AddressCubit()..load();
     _payments = PaymentCubit()..load();
+    _locale = LocaleCubit()..load();
   }
 
   @override
   void dispose() {
+    _locale.close();
     _payments.close();
     _addresses.close();
     _cart.close();
@@ -70,6 +73,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider.value(value: _cart),
         BlocProvider.value(value: _addresses),
         BlocProvider.value(value: _payments),
+        BlocProvider.value(value: _locale),
       ],
       child: BlocListener<AuthCubit, AuthState>(
         // Signing out must not leave the next user holding someone else's cart.
@@ -79,21 +83,29 @@ class _MyAppState extends State<MyApp> {
         listener: (_, __) => _cart.clear(),
         child: RepositoryProvider.value(
           value: _apiClient,
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.light,
+          // Rebuilds the whole app when the language changes, so every screen
+          // re-reads its strings and the text direction flips with it.
+          child: BlocBuilder<LocaleCubit, Locale?>(
+            builder: (context, locale) => MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.light,
 
-            // Translations. `localizationsDelegates` also pulls in Flutter's
-            // own Material/Widgets/Cupertino translations, so built-in widgets
-            // speak Arabic too — and RTL layout is applied automatically.
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
+              // Null follows the device setting, which is the default.
+              locale: locale,
 
-            onGenerateTitle: (context) => AppLocalizations.of(context).appName,
+              // Translations. `localizationsDelegates` also pulls in Flutter's
+              // own Material/Widgets/Cupertino translations, so built-in widgets
+              // speak Arabic too — and RTL layout is applied automatically.
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
 
-            // StartupGate shows onboarding on a first run, then hands over to
-            // AuthGate, which decides between login and the app itself.
-            home: const StartupGate(),
+              onGenerateTitle: (context) =>
+                  AppLocalizations.of(context).appName,
+
+              // StartupGate shows onboarding on a first run, then hands over to
+              // AuthGate, which decides between login and the app itself.
+              home: const StartupGate(),
+            ),
           ),
         ),
       ),

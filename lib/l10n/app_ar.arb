@@ -148,5 +148,9 @@
   "forgotPasswordTitle": "نسيت كلمة المرور",
   "forgotPasswordSubtitle": "الرجاء تسجيل الدخول إلى حسابك",
   "sendCode": "إرسال الرمز",
-  "forgotPasswordUnavailable": "لا يوفر هذا الخادم التجريبي خدمة استعادة كلمة المرور، لذا لن يُرسل أي بريد."
+  "forgotPasswordUnavailable": "لا يوفر هذا الخادم التجريبي خدمة استعادة كلمة المرور، لذا لن يُرسل أي بريد.",
+  "language": "اللغة",
+  "languageSystem": "لغة النظام",
+  "languageEnglish": "English",
+  "languageArabic": "العربية"
 }

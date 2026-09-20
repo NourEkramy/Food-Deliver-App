@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../core/widgets/language_picker.dart';
 import '../../../../routes.dart';
 import '../../../auth/cubit/auth_cubit.dart';
 
@@ -119,6 +120,21 @@ class AppDrawer extends StatelessWidget {
               },
             ),
             const Spacer(),
+            ListTile(
+              leading: const Icon(Icons.language, color: AppColors.white),
+              title: Text(
+                l10n.language,
+                style: const TextStyle(color: AppColors.white, fontSize: 15),
+              ),
+              onTap: () {
+                // The Navigator's own context, captured before the drawer
+                // closes: this tile's context is torn down by the pop, and the
+                // sheet outlives it.
+                final navigator = Navigator.of(context);
+                navigator.pop();
+                showLanguagePicker(navigator.context);
+              },
+            ),
             ListTile(
               leading: const Icon(Icons.logout, color: AppColors.white),
               title: Text(

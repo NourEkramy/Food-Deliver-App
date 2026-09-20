@@ -15,6 +15,7 @@ class LocalStore {
   static const keyOnboardingSeen = 'onboarding_seen';
   static const keyAddresses = 'saved_addresses';
   static const keyCards = 'saved_cards';
+  static const keyLocale = 'app_locale';
 
   final FlutterSecureStorage _storage;
 
@@ -34,6 +35,25 @@ class LocalStore {
       await _storage.write(key: key, value: value.toString());
     } catch (_) {
       // Losing a preference is not worth failing a user action over.
+    }
+  }
+
+  /// Reads a stored string, or null if there is none.
+  Future<String?> readString(String key) async {
+    try {
+      final value = await _storage.read(key: key);
+      return (value == null || value.isEmpty) ? null : value;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Writes a string, or clears it when [value] is null.
+  Future<void> writeString(String key, String? value) async {
+    try {
+      await _storage.write(key: key, value: value);
+    } catch (_) {
+      // Persistence is best effort; the in-memory state already changed.
     }
   }
 
