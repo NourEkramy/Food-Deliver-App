@@ -62,15 +62,25 @@ class ApiLogInterceptor extends Interceptor {
     return safe.toString();
   }
 
-  /// Shows the shape of a response without dumping a whole restaurant list.
+  /// Shows the shape of a response without dumping its contents.
+  ///
+  /// Lists report the keys of their first element as well as their length.
+  /// Without that, a list response revealed nothing about the objects inside
+  /// it — which is how the Order model came to be written against guessed
+  /// field names.
   String _summarise(Object? data) {
-    if (data is List) return '[${data.length} items]';
-    if (data is Map) {
-      final keys = data.keys.map((k) => k.toString());
-      return '{${keys.join(', ')}}';
+    if (data is List) {
+      final count = '[${data.length} items]';
+      final first = data.firstOrNull;
+      if (first is Map) return '$count first: ${_keys(first)}';
+      return count;
     }
+    if (data is Map) return _keys(data);
     return '';
   }
+
+  String _keys(Map data) =>
+      '{${data.keys.map((k) => k.toString()).join(', ')}}';
 
   bool _isSecret(String key) => _secrets.contains(key.toLowerCase());
 }

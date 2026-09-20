@@ -116,7 +116,9 @@ class _OrderCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  order.restaurantName ?? l10n.myOrders,
+                  // With no restaurant name the order number becomes the
+                  // title, rather than labelling every order "My Orders".
+                  order.restaurantName ?? l10n.orderNumber(order.id),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -126,13 +128,14 @@ class _OrderCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Text(
-                l10n.orderNumber(order.id),
-                style: const TextStyle(
-                  color: AppColors.textSecondary,
-                  fontSize: 13,
+              if (order.restaurantName != null)
+                Text(
+                  l10n.orderNumber(order.id),
+                  style: const TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 13,
+                  ),
                 ),
-              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -151,13 +154,16 @@ class _OrderCard extends StatelessWidget {
                 const Text('|', style: TextStyle(color: AppColors.divider)),
                 const SizedBox(width: 10),
               ],
-              Text(
-                l10n.itemCount(order.itemCount),
-                style: const TextStyle(
-                  color: AppColors.textSecondary,
-                  fontSize: 13,
+              // Hidden at zero: "0 items" states something false when the
+              // payload simply did not include the lines.
+              if (order.itemCount > 0)
+                Text(
+                  l10n.itemCount(order.itemCount),
+                  style: const TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 13,
+                  ),
                 ),
-              ),
               if (order.placedAt != null) ...[
                 const Spacer(),
                 Text(

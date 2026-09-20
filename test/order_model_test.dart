@@ -88,4 +88,59 @@ void main() {
 
     expect(order!.lines.single.quantity, 1);
   });
+
+  group('the shape the live API actually returns', () {
+    // Confirmed from a real run: makeorder answered 201 with
+    // {fullorder, grandTotal}. The first parser guessed `total` and `menuDTO`,
+    // so orders rendered with no total and "0 items".
+    test('reads grandTotal and fullorder', () {
+      final order = Order.tryParse({
+        'masterID': 317,
+        'grandTotal': 500.0,
+        'fullorder': [
+          {
+            'itemName': 'Laal Maas',
+            'quantity': 1,
+            'itemPrice': 500.0,
+            'restaurantName': '1135 AD',
+          },
+        ],
+      });
+
+      expect(order!.id, '317');
+      expect(order.total, 500.0);
+      expect(order.itemCount, 1);
+      expect(order.lines.single.itemName, 'Laal Maas');
+    });
+
+    test('takes the restaurant name from the lines', () {
+      // The order itself carries no restaurantName; every line does.
+      final order = Order.tryParse({
+        'masterID': 317,
+        'grandTotal': 500.0,
+        'fullorder': [
+          {'itemName': 'Laal Maas', 'quantity': 1, 'restaurantName': '1135 AD'},
+        ],
+      });
+
+      expect(order!.restaurantName, '1135 AD');
+    });
+
+    test('accepts fullorder as a single object, not just a list', () {
+      final order = Order.tryParse({
+        'masterID': 318,
+        'fullorder': {'itemName': 'Dal Baati Churma', 'quantity': 2},
+      });
+
+      expect(order!.lines, hasLength(1));
+      expect(order.itemCount, 2);
+    });
+
+    test('an order with no lines reports no items rather than guessing', () {
+      final order = Order.tryParse({'masterID': 318});
+
+      expect(order!.itemCount, 0);
+      expect(order.restaurantName, isNull);
+    });
+  });
 }

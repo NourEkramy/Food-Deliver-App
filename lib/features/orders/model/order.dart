@@ -6,10 +6,20 @@ class OrderLine extends Equatable {
   final int quantity;
   final double? price;
 
-  const OrderLine({required this.itemName, required this.quantity, this.price});
+  /// Present because this API repeats the restaurant on every menu row. It is
+  /// where the order's restaurant name comes from when the order itself does
+  /// not carry one.
+  final String? restaurantName;
+
+  const OrderLine({
+    required this.itemName,
+    required this.quantity,
+    this.price,
+    this.restaurantName,
+  });
 
   @override
-  List<Object?> get props => [itemName, quantity, price];
+  List<Object?> get props => [itemName, quantity, price, restaurantName];
 }
 
 /// A placed order.
@@ -54,14 +64,21 @@ class Order extends Equatable {
     ]);
     if (id == null) return null;
 
+    final lines = _parseLines(data);
+
     return Order(
       id: id,
-      restaurantName: _firstString(data, const [
-        'restaurantName',
-        'restaurant',
-      ]),
+      // The live payload puts the restaurant only on each line, not on the
+      // order, so fall back to the first line's.
+      restaurantName:
+          _firstString(data, const ['restaurantName', 'restaurant']) ??
+          lines.firstOrNull?.restaurantName,
       restaurantId: _firstInt(data, const ['restaurantID', 'restaurantId']),
       total: _firstDouble(data, const [
+        // grandTotal is what this API actually returns; the rest are kept as
+        // tolerated alternatives.
+        'grandTotal',
+        'grandtotal',
         'total',
         'totalPrice',
         'orderTotal',
@@ -73,30 +90,56 @@ class Order extends Equatable {
         'date',
         'orderedOn',
       ]),
-      lines: _parseLines(data),
+      lines: lines,
     );
   }
 
   static List<OrderLine> _parseLines(Map data) {
     final raw =
+        // `fullorder` is what this API actually returns.
+        data['fullorder'] ??
+        data['fullOrder'] ??
         data['menuDTO'] ??
         data['items'] ??
         data['orderDetails'] ??
         data['orderItems'] ??
         data['menu'];
-    if (raw is! List) return const [];
+
+    // Accept a single object as well as a list — a one-dish order could
+    // plausibly come back either way.
+    final entries = switch (raw) {
+      List list => list,
+      Map map => [map],
+      _ => const [],
+    };
 
     final lines = <OrderLine>[];
-    for (final entry in raw) {
+    for (final entry in entries) {
       if (entry is! Map) continue;
-      final name = _firstString(entry, const ['itemName', 'name', 'item']);
+      final name = _firstString(entry, const [
+        'itemName',
+        'name',
+        'item',
+        'menuItemName',
+      ]);
       if (name == null) continue;
 
       lines.add(
         OrderLine(
           itemName: name,
-          quantity: _firstInt(entry, const ['quantity', 'qty', 'count']) ?? 1,
-          price: _firstDouble(entry, const ['itemPrice', 'price', 'total']),
+          quantity:
+              _firstInt(entry, const ['quantity', 'qty', 'count', 'amount']) ??
+              1,
+          price: _firstDouble(entry, const [
+            'itemPrice',
+            'price',
+            'total',
+            'lineTotal',
+          ]),
+          restaurantName: _firstString(entry, const [
+            'restaurantName',
+            'restaurant',
+          ]),
         ),
       );
     }
