@@ -323,4 +323,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get saveName => 'حفظ';
+
+  @override
+  String get orderDetailsTitle => 'تفاصيل الطلب';
+
+  @override
+  String get orderItems => 'العناصر';
+
+  @override
+  String get orderNotFound => 'تعذّر العثور على هذا الطلب';
 }

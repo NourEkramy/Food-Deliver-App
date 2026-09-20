@@ -94,5 +94,8 @@
   "deleteAccountTitle": "حذف حسابك؟",
   "deleteAccountBody": "سيؤدي هذا إلى حذف حسابك نهائياً وتسجيل خروجك. لا يمكن التراجع عن ذلك.",
   "accountDeleted": "تم حذف الحساب",
-  "saveName": "حفظ"
+  "saveName": "حفظ",
+  "orderDetailsTitle": "تفاصيل الطلب",
+  "orderItems": "العناصر",
+  "orderNotFound": "تعذّر العثور على هذا الطلب"
 }

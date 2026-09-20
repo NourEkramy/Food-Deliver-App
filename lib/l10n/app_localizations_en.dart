@@ -317,4 +317,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveName => 'SAVE';
+
+  @override
+  String get orderDetailsTitle => 'Order Details';
+
+  @override
+  String get orderItems => 'ITEMS';
+
+  @override
+  String get orderNotFound => 'That order could not be found';
 }

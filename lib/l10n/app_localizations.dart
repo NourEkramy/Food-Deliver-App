@@ -667,6 +667,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SAVE'**
   String get saveName;
+
+  /// No description provided for @orderDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Details'**
+  String get orderDetailsTitle;
+
+  /// No description provided for @orderItems.
+  ///
+  /// In en, this message translates to:
+  /// **'ITEMS'**
+  String get orderItems;
+
+  /// No description provided for @orderNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'That order could not be found'**
+  String get orderNotFound;
 }
 
 class _AppLocalizationsDelegate

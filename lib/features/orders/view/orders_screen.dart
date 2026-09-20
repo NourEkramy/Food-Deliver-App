@@ -6,6 +6,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/util/money.dart';
 import '../../../core/widgets/screen_header.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../routes.dart';
 import '../cubit/orders_cubit.dart';
 import '../cubit/orders_state.dart';
 import '../model/order.dart';
@@ -107,114 +108,119 @@ class _OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  // With no restaurant name the order number becomes the
-                  // title, rather than labelling every order "My Orders".
-                  order.restaurantName ?? l10n.orderNumber(order.id),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+    return InkWell(
+      // The list may only carry summaries; the detail screen fetches the order
+      // in full by its master id.
+      onTap: () => AppRoutes.openOrderDetail(context, order.id),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    // With no restaurant name the order number becomes the
+                    // title, rather than labelling every order "My Orders".
+                    order.restaurantName ?? l10n.orderNumber(order.id),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                 ),
-              ),
-              if (order.restaurantName != null)
-                Text(
-                  l10n.orderNumber(order.id),
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 13,
+                if (order.restaurantName != null)
+                  Text(
+                    l10n.orderNumber(order.id),
+                    style: const TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 13,
+                    ),
                   ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              if (order.total != null) ...[
-                Text(
-                  formatPrice(context, order.total!),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                const Text('|', style: TextStyle(color: AppColors.divider)),
-                const SizedBox(width: 10),
               ],
-              // Hidden at zero: "0 items" states something false when the
-              // payload simply did not include the lines.
-              if (order.itemCount > 0)
-                Text(
-                  l10n.itemCount(order.itemCount),
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 13,
-                  ),
-                ),
-              if (order.placedAt != null) ...[
-                const Spacer(),
-                Text(
-                  DateFormat.yMMMd(
-                    Localizations.localeOf(context).toString(),
-                  ).format(order.placedAt!),
-                  style: const TextStyle(color: AppColors.hint, fontSize: 12),
-                ),
-              ],
-            ],
-          ),
-          if (order.lines.isNotEmpty) ...[
+            ),
             const SizedBox(height: 8),
-            Text(
-              order.lines
-                  .map((line) => '${line.quantity}× ${line.itemName}')
-                  .join(', '),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 13,
-                height: 1.4,
-              ),
+            Row(
+              children: [
+                if (order.total != null) ...[
+                  Text(
+                    formatPrice(context, order.total!),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  const Text('|', style: TextStyle(color: AppColors.divider)),
+                  const SizedBox(width: 10),
+                ],
+                // Hidden at zero: "0 items" states something false when the
+                // payload simply did not include the lines.
+                if (order.itemCount > 0)
+                  Text(
+                    l10n.itemCount(order.itemCount),
+                    style: const TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 13,
+                    ),
+                  ),
+                if (order.placedAt != null) ...[
+                  const Spacer(),
+                  Text(
+                    DateFormat.yMMMd(
+                      Localizations.localeOf(context).toString(),
+                    ).format(order.placedAt!),
+                    style: const TextStyle(color: AppColors.hint, fontSize: 12),
+                  ),
+                ],
+              ],
             ),
-          ],
-          const SizedBox(height: 12),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: isCancelling ? null : () => _confirmCancel(context),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.primary,
-                side: const BorderSide(color: AppColors.primary),
-                minimumSize: const Size.fromHeight(44),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+            if (order.lines.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Text(
+                order.lines
+                    .map((line) => '${line.quantity}× ${line.itemName}')
+                    .join(', '),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: AppColors.textSecondary,
+                  fontSize: 13,
+                  height: 1.4,
                 ),
               ),
-              child: isCancelling
-                  ? const SizedBox(
-                      height: 18,
-                      width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Text(l10n.cancelOrder),
+            ],
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: isCancelling ? null : () => _confirmCancel(context),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.primary,
+                  side: const BorderSide(color: AppColors.primary),
+                  minimumSize: const Size.fromHeight(44),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: isCancelling
+                    ? const SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Text(l10n.cancelOrder),
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          const Divider(height: 1),
-        ],
+            const SizedBox(height: 20),
+            const Divider(height: 1),
+          ],
+        ),
       ),
     );
   }

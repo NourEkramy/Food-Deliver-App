@@ -6,6 +6,8 @@ import 'features/auth/cubit/auth_cubit.dart';
 import 'features/cart/view/cart_screen.dart';
 import 'features/orders/cubit/orders_cubit.dart';
 import 'features/orders/repository/order_repository.dart';
+import 'features/orders/cubit/order_detail_cubit.dart';
+import 'features/orders/view/order_detail_screen.dart';
 import 'features/orders/view/orders_screen.dart';
 import 'features/profile/cubit/profile_cubit.dart';
 import 'features/profile/repository/profile_repository.dart';
@@ -99,6 +101,19 @@ class AppRoutes {
         builder: (_) => BlocProvider(
           create: (_) => ProfileCubit(ProfileRepository(dio), auth),
           child: screen,
+        ),
+      ),
+    );
+  }
+
+  static Future<void> openOrderDetail(BuildContext context, String orderId) {
+    final dio = context.read<ApiClient>().dio;
+
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (_) => OrderDetailCubit(OrderRepository(dio)),
+          child: OrderDetailScreen(orderId: orderId),
         ),
       ),
     );

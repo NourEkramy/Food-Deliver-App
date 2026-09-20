@@ -138,5 +138,8 @@
   "deleteAccountTitle": "Delete your account?",
   "deleteAccountBody": "This permanently deletes your account and you will be signed out. It cannot be undone.",
   "accountDeleted": "Account deleted",
-  "saveName": "SAVE"
+  "saveName": "SAVE",
+  "orderDetailsTitle": "Order Details",
+  "orderItems": "ITEMS",
+  "orderNotFound": "That order could not be found"
 }

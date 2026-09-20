@@ -29,6 +29,24 @@ class OrderRepository {
     }
   }
 
+  /// One order, in full.
+  ///
+  /// `GET /Order` may only return summaries — that has not been confirmed
+  /// against a live account — so this is where an order's dishes can always be
+  /// read, whatever the list contains.
+  Future<Order?> getOrderById(String masterId) async {
+    try {
+      final response = await dio.get('/Order/$masterId');
+      final data = response.data;
+
+      // A single order may arrive on its own or wrapped in a one-item list.
+      final raw = data is List ? data.firstOrNull : data;
+      return Order.tryParse(raw);
+    } on DioException catch (e) {
+      throw Exception(_readableError(e, fallback: 'Could not load that order'));
+    }
+  }
+
   /// Places an order for one restaurant.
   ///
   /// The restaurant is part of the URL and the API keys the lines on

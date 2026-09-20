@@ -1,5 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:dio/dio.dart';
 import 'package:food_delivery/features/orders/model/order.dart';
+import 'package:food_delivery/features/orders/repository/order_repository.dart';
+
+import 'auth_repository_test.dart' show StubAdapter;
+
+OrderRepository repoWith(StubAdapter adapter) {
+  final dio = Dio(BaseOptions(baseUrl: 'https://example.test/api'))
+    ..httpClientAdapter = adapter;
+  return OrderRepository(dio);
+}
 
 /// The `/Order` response shape could not be inspected while this was written —
 /// the endpoint needs an API key. So the parser accepts several plausible
@@ -141,6 +151,57 @@ void main() {
 
       expect(order!.itemCount, 0);
       expect(order.restaurantName, isNull);
+    });
+  });
+
+  group('getOrderById', () {
+    test('parses a single order object', () async {
+      final adapter = StubAdapter({
+        '/Order/317': (
+          200,
+          {
+            'masterID': 317,
+            'grandTotal': 500.0,
+            'fullorder': [
+              {
+                'itemName': 'Laal Maas',
+                'quantity': 1,
+                'restaurantName': '1135 AD',
+              },
+            ],
+          },
+        ),
+      });
+
+      final order = await repoWith(adapter).getOrderById('317');
+
+      expect(order!.id, '317');
+      expect(order.total, 500.0);
+      expect(order.restaurantName, '1135 AD');
+      expect(adapter.calls, ['/Order/317']);
+    });
+
+    test('unwraps an order returned inside a one-item list', () async {
+      // The list and detail endpoints may not agree on shape; accept both.
+      final adapter = StubAdapter({
+        '/Order/317': (
+          200,
+          [
+            {'masterID': 317, 'grandTotal': 250.0},
+          ],
+        ),
+      });
+
+      final order = await repoWith(adapter).getOrderById('317');
+
+      expect(order!.id, '317');
+      expect(order.total, 250.0);
+    });
+
+    test('returns null when the payload identifies no order', () async {
+      final adapter = StubAdapter({'/Order/999': (200, <String, Object>{})});
+
+      expect(await repoWith(adapter).getOrderById('999'), isNull);
     });
   });
 }
